@@ -5,30 +5,48 @@
 class StoryCard
 {
     constructor(a_apiResponse) {
-        this.by = a_apiResponse.by;
-        this.descendants = a_apiResponse.descendants;
-        this.id = a_apiResponse.id;
-        this.kids = a_apiResponse.kids;
-        this.score = a_apiResponse.score;
-        this.time = a_apiResponse.time;
-        this.title = a_apiResponse.title;
-        this.type = a_apiResponse.type;
-        this.url = a_apiResponse.url;
+        this.by = null;
+        this.descendants = null;
+        this.id = null;
+        this.kids = [];
+        this.score = null;
+        this.time = null;
+        this.title = null;
+        this.type = null;
+        this.url = null;
+
+
+        for (const key of Object.keys(a_apiResponse)) {
+            this[key] = a_apiResponse[key];
+        }
+
+        this.siteUrl = `https://news.ycombinator.com/item?id=${this.id}`;
+        this.dt = DateTime.fromSeconds(this.time);
     }
 
 
-    getHtml() {
-  
+    getCardHtml() {
+        
+        const url = this.url == null ? this.siteUrl : this.url;
+
         let html = `
-        <div class="card card-story">
+        <div class="card card-story custom-shadow" data-id=${this.id}>
             <div class="card-body">
-                <h5 class="card-title">${this.title}</h5>
-                <p>${this.by}</p>
+                <h5 class="card-title">
+                    <a href="${url}" target="_blank">${this.title}</a>    
+                </h5>
+                <p class="text-muted"><small>${this.dt.toFormat('f')}</small></p>
+                <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
+                
+            
+                </div>
+            <div class="card-footer px-4">
+                <div class="d-flex align-baseline justify-content-between">
+                    <span><i class='bx bx-like'></i>&nbsp;${this.score}</span>
+                    <span><i class='bx bx-comment-detail'></i>&nbsp;${this.descendants}</span>
+                </div>
             </div>
         </div>`;
-
-
-
 
         return html;
     }

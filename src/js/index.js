@@ -3,36 +3,8 @@
 
 // main logic
 $(document).ready(function() {
-    test();
     loadTopStories();
 });
-
-
-
-function test() {
-    
-    ApiWrapper.getTopStoriesIds();
-
-    ApiWrapper.getStory(55);
-
-}
-
-
-
-async function getStory() {
-    let story1 = ApiWrapper.getStory(27447766);
-    let story2 = ApiWrapper.getStory(27449931);
-
-
-
-
-    let values = await Promise.all([story1, story2]);
-
-    console.table(values);
-
-}
-
-
 
 
 async function loadTopStories() {
@@ -40,32 +12,42 @@ async function loadTopStories() {
 
     const storyPromises = [];
 
-    for (let count = 0; count < 500; count++) {
+    for (let count = 0; count < topStoriesList.length; count++) {
         const storyResponse = ApiWrapper.getStory(topStoriesList[count]);
         storyPromises.push(storyResponse);
     }
 
-
     const stories = await Promise.all(storyPromises);
-
-    
     let html = '<div class="card-deck">';
 
-    for (let count = 0; count < stories.length; count++) {
-        if (count != 0 && count % 3 == 0) {
-            html += '</div><div class="card-deck">';
+
+    stories.sort(function(a, b) {
+        const urlA = a.title;
+        const urlB = b.title;
+
+        return (urlA < urlB ? -1 : 1);
+    });
+
+    let count = 0;
+
+    for (const story of stories) {
+        if (story.type != Constants.TYPES.STORY) {
+            continue;
         }
-        
 
-        const storyCard = new StoryCard(stories[count]);
-        html += storyCard.getHtml();
+        if (count == 3) {
+            html += '</div><div class="card-deck">';
+            count = 0;
+        }
+
+        const storyCard = new StoryCard(story);
+        html += storyCard.getCardHtml();
+
+        count++;
     }
-
 
     html += '</div>';
 
     $('#stories-container').html(html);
-
-
 }
 

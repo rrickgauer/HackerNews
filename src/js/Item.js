@@ -1,7 +1,6 @@
 
-const DateTime = luxon.DateTime;
 
-class Constants
+class Item
 {
     static TYPES = {
         JOB: 'job',
@@ -10,4 +9,16 @@ class Constants
         POLL: 'poll',
         POLLOPT: 'pollopt',
     };
+
+
+    constructor() {
+
+    }
 }
+
+
+
+
+
+
+
