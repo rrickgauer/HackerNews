@@ -16,7 +16,16 @@ body {
 
 
 .card-story {
+
+    transition: all .07s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
     .card-footer {
         background-color: inherit;
     }
 }
+
