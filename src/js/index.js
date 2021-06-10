@@ -2,6 +2,8 @@
 const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
 
+const eStoryCardClass = `.${StoryComp.cardElementClass}`;
+
 
 const mStories = new Stories(eStoriesContainer);
 
@@ -17,6 +19,11 @@ $(document).ready(function() {
 function addEventListeners() {
     $(eSortingSelect).on('change', function() {
         updateStorySorting();
+    });
+
+
+    $('body').on('click', eStoryCardClass, function(e) {
+        gotoStory(e);
     });
 }
 
@@ -40,6 +47,18 @@ function showStoriesContainerSpinner() {
     $(eStoriesContainer).html(html);
 }
 
+
+function gotoStory(e) {
+    if (e.target.className == 'card-story-link') {
+        return;
+    }
+
+    const card = $(e.target).closest(eStoryCardClass);
+    const storyID = $(card).attr('data-id');
+
+    const url = `story.html?storyID=${storyID}`;
+    window.open(url, "_blank");
+}
 
 
 

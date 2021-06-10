@@ -2,8 +2,12 @@
 
 
 
-class StoryCard
+class StoryComp
 {
+
+    static cardElementClass = 'card-story';
+
+
     constructor(a_apiResponse) {
         this.by = null;
         this.descendants = null;
@@ -30,10 +34,10 @@ class StoryCard
         const url = this.url == null ? this.siteUrl : this.url;
 
         let html = `
-        <div class="card card-story custom-shadow" data-id=${this.id}>
+        <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
             <div class="card-body">
                 <h5 class="card-title">
-                    <a href="${url}" target="_blank">${this.title}</a>    
+                    <a href="${url}" target="_blank" class="card-story-link">${this.title}</a>    
                 </h5>
                 <p class="text-muted"><small>${this.dt.toFormat('f')}</small></p>
                 <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>

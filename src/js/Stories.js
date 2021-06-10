@@ -92,7 +92,7 @@ class Stories
                 count = 0;
             }
 
-            const storyCard = new StoryCard(story);
+            const storyCard = new StoryComp(story);
             html += storyCard.getCardHtml();
 
             count++;
