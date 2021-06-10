@@ -19,6 +19,24 @@
 
         <h1 class="my-5">Hacker News</h1>
 
+        <div class="toolbar mb-3">
+
+            <div class="d-flex align-items-baseline">
+                <span><b>Sort by:</b></span>
+                <div class="ml-2">
+                    <select id="stories-sort-option" class="form-control form-control-sm">
+                        <option value="0">Default</option>
+                        <option value="1">Score</option>
+                        <option value="2">Comments</option>
+                        <option value="3">Title</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+        </div>
+
         <!-- items get placed here -->
         <div id="stories-container">
 
@@ -49,6 +67,7 @@
     <!-- custom js -->
     <script src="js/Constants.js"></script>
     <script src="js/ApiWrapper.js"></script>
+    <script src="js/Stories.js"></script>
     <script src="js/StoryCard.js"></script>
     <script src="js/index.js"></script>
 
