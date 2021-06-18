@@ -25,6 +25,7 @@ class Stories
     }
 
     async fetchStories(a_listStoryIDs, a_enumSortingType) {
+        const self = this;
         const storyPromises = [];
 
         for (const storyID of a_listStoryIDs) {
@@ -43,14 +44,24 @@ class Stories
             }
         }
 
-        // sort the stories if non-default value is given
-        if (a_enumSortingType == Stories.SortingTypes.Score) {
-            this.sortStoriesByScore();
-        } else if (a_enumSortingType == Stories.SortingTypes.Descendants) {
-            this.sortStoriesByDescendants();
-        } else if (a_enumSortingType == Stories.SortingTypes.Title) {
-            this.sortStoriesByTitle();
+
+        switch(a_enumSortingType) {
+            case Stories.SortingTypes.Score:
+                self.sortStoriesByScore(); break;
+            case Stories.SortingTypes.Descendants:
+                self.sortStoriesByDescendants(); break;
+            case Stories.SortingTypes.Title:
+                self.sortStoriesByTitle(); break;
         }
+
+        // sort the stories if non-default value is given
+        // if (a_enumSortingType == Stories.SortingTypes.Score) {
+        //     this.sortStoriesByScore();
+        // } else if (a_enumSortingType == Stories.SortingTypes.Descendants) {
+        //     this.sortStoriesByDescendants();
+        // } else if (a_enumSortingType == Stories.SortingTypes.Title) {
+        //     this.sortStoriesByTitle();
+        // }
 
         this.displayStories();
     }
