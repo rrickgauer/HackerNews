@@ -54,15 +54,6 @@ class Stories
                 self.sortStoriesByTitle(); break;
         }
 
-        // sort the stories if non-default value is given
-        // if (a_enumSortingType == Stories.SortingTypes.Score) {
-        //     this.sortStoriesByScore();
-        // } else if (a_enumSortingType == Stories.SortingTypes.Descendants) {
-        //     this.sortStoriesByDescendants();
-        // } else if (a_enumSortingType == Stories.SortingTypes.Title) {
-        //     this.sortStoriesByTitle();
-        // }
-
         this.displayStories();
     }
 
@@ -94,7 +85,6 @@ class Stories
 
     displayStories() {
         let html = '<div class="card-deck">';
-
         let count = 0;
 
         for (const story of this.stories) {
