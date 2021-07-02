@@ -1,20 +1,19 @@
 
 
-
-
-class StoryCard
+class StoryComp
 {
-    constructor(a_apiResponse) {
-        this.by = null;
-        this.descendants = null;
-        this.id = null;
-        this.kids = [];
-        this.score = null;
-        this.time = null;
-        this.title = null;
-        this.type = null;
-        this.url = null;
+    static cardElementClass = 'card-story';
 
+    constructor(a_apiResponse) {
+        this.by          = null;
+        this.descendants = null;
+        this.id          = null;
+        this.kids        = [];
+        this.score       = null;
+        this.time        = null;
+        this.title       = null;
+        this.type        = null;
+        this.url         = null;
 
         for (const key of Object.keys(a_apiResponse)) {
             this[key] = a_apiResponse[key];
@@ -26,20 +25,15 @@ class StoryCard
 
 
     getCardHtml() {
-        
         const url = this.url == null ? this.siteUrl : this.url;
 
         let html = `
-        <div class="card card-story custom-shadow" data-id=${this.id}>
+        <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
             <div class="card-body">
-                <h5 class="card-title">
-                    <a href="${url}" target="_blank">${this.title}</a>    
-                </h5>
+                <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
                 <p class="text-muted"><small>${this.dt.toFormat('f')}</small></p>
                 <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
-                
-            
-                </div>
+            </div>
             <div class="card-footer px-4">
                 <div class="d-flex align-baseline justify-content-between">
                     <span><i class='bx bx-like'></i>&nbsp;${this.score}</span>

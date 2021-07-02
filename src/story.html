@@ -15,42 +15,24 @@
 
 <body>
 
-    <div class="container mb-5">
+    <main>
+        <div class="container mb-5">
 
-        <h1 class="my-5">Hacker News</h1>
+            <h1 class="my-5" id="story-meta-title">Title</h1>
+            
 
-        <div class="toolbar mb-3">
+            <section id="comments-container">
+                <ul id="comments-list">
 
-            <div class="d-flex align-items-baseline">
-                <span><b>Sort by:</b></span>
-                <div class="ml-2">
-                    <select id="stories-sort-option" class="form-control form-control-sm">
-                        <option value="0">Default</option>
-                        <option value="1">Score</option>
-                        <option value="2">Comments</option>
-                        <option value="3">Title</option>
-                    </select>
-                </div>
+                </ul>
 
-
-            </div>
-
+            </section>
+            
+    
+    
+    
         </div>
-
-        <!-- items get placed here -->
-        <div id="stories-container">
-
-            <div class="d-flex justify-content-center mt-5">
-                <div class="spinner-border text-primary mt-5" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
+    </main>
 
 
 
@@ -65,10 +47,11 @@
 
     <!-- custom js -->
     <script src="js/Constants.js"></script>
+    <script src="js/UrlParser.js"></script>
     <script src="js/ApiWrapper.js"></script>
-    <script src="js/Stories.js"></script>
+    <script src="js/Comment.js"></script>
     <script src="js/StoryComp.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/story-page.js"></script>
 
 
 </body>
