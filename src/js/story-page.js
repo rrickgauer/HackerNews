@@ -8,14 +8,13 @@ const mUrlParser = new UrlParser();
 const mStoryID = mUrlParser.getQueryParm('storyID');
 
 
+let mComments = {};
+
 
 // main logic
 $(document).ready(function() {
-
     fetchStoryData();
-
 });
-
 
 
 
@@ -30,9 +29,14 @@ async function fetchStoryData(a_iStoryID) {
     displayStoryMetadata(storyComp);
     // storyComp = await fetchComments(storyComp);
 
+    mComments = storyComp;
+    await fetchAllComments(mComments);
+    mComments = mComments.kids;
 
-    doShit(storyComp);
+    displayComments();
 }
+
+
 /**
  * Display story metadata on the page
  * 
@@ -43,39 +47,42 @@ async function fetchStoryData(a_iStoryID) {
     $('title').text(a_oStoryMetadata.title);
 }
 
-
-async function doShit(storyComp) {
-    await fetchComments(storyComp);
-
-    console.log(storyComp);
-}
-
-
 /**
- * Fetch all the comments for a story   
- * @param {StoryComp} a_oStoryComp the story object
+ * Display the top level comments  
+ * 
+ * @param {StoryComp} storyComp the story
  */
-async function fetchComments(a_oStoryComp) {
+async function fetchAllComments(storyComp) {
 
-    if (!a_oStoryComp.hasOwnProperty('kids')) {
-        return a_oStoryComp;
+    if (!storyComp.hasOwnProperty('kids')) {    
+        return;
     }
 
-    if (a_oStoryComp.kids.length == 0) {
-        return a_oStoryComp;
+    const promiseList = [];
+
+    for(const commentID of storyComp.kids) {
+        promiseList.push(ApiWrapper.getStory(commentID));
     }
 
-    const commentPromises = [];
+    storyComp.kids = await Promise.all(promiseList);
 
-    for (const commentID of a_oStoryComp.kids) {
-        const commentPromise = ApiWrapper.getStory(commentID);
-        commentPromises.push(commentPromise);
-    }
-
-    a_oStoryComp.kids = await Promise.all(commentPromises);
-
-    for (let count = 0; count < a_oStoryComp.kids.length; count++) {
-        a_oStoryComp.kids[count] = await fetchComments(a_oStoryComp.kids[count]);
+    for (let count = 0; count < storyComp.kids.length; count++) {
+        await fetchAllComments(storyComp.kids[count]);
     }
 }
+
+
+function displayComments() {
+    let html = '';
+
+    for (const comment of mComments) {
+        const commentObj = new Comment(comment);
+        html += commentObj.getHtml();
+    }
+
+    $('#comments-list').html(html);
+
+}
+
+
 
