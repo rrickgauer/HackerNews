@@ -82,8 +82,10 @@ class StoryComments
             html += commentObj.getHtml();
         }
 
-        $('#comments-list').html(html);
+        
+        $('#comments-list').html(html).find('a').attr("target", "_blank");;
 
+        // $(html).
     }
 
 }

@@ -2,6 +2,8 @@
 
 const eMetadataDisplays = {
     title: '#story-meta-title',
+    link: '#story-meta-link',
+    hackernewsLink: '#story-meta-hackernews-link',
 }
 
 const mUrlParser = new UrlParser();
@@ -14,6 +16,4 @@ let mStoryComments = new StoryComments(mStoryID, eMetadataDisplays.title);
 $(document).ready(function() {
     mStoryComments.fetchStoryData();
 });
-
-
 
