@@ -21,4 +21,15 @@ body {
   background-color: inherit;
 }
 
+.list-comments {
+  margin-left: 30px;
+}
+
+.comment-item {
+  margin-bottom: 25px;
+}
+.comment-item .comment-item-meta {
+  margin-bottom: 5px;
+}
+
 /*# sourceMappingURL=style.css.map */

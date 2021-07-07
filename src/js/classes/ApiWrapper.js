@@ -24,11 +24,15 @@ class ApiWrapper
         return url;
     }
 
+    static getUserUrl(userID) {
+        return `${ApiWrapper.URL_USER_BASE}${userID}`;
+    }
 
 }
 
 
 ApiWrapper.URL_BASE = 'https://hacker-news.firebaseio.com/v0/';
+ApiWrapper.URL_USER_BASE = 'https://news.ycombinator.com/user?id=';
 
 
 ApiWrapper.URLS = {

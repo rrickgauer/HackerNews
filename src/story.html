@@ -18,11 +18,34 @@
     <main>
         <div class="container mb-5">
 
-            <h1 class="my-5" id="story-meta-title">Title</h1>
+
+            <a href="#" id="story-meta-link">
+                <h1 class="my-5 text-center" id="story-meta-title">Title</h1>
+            </a>
+            
+
+            <p class="text-center">
+                <a href="#" id="story-meta-hackernews-link">View page</a>
+            </p>
+
+
             
 
             <section id="comments-container">
-                <ul id="comments-list"></ul>        
+                <div class="card">
+                    <div class="card-body">
+                        <ul id="comments-list" class="list-unstyled">
+
+                            <div class="d-flex justify-content-center my-5">
+                                <div class="spinner-border text-primary mt-5" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+
+                        </ul>    
+                    </div>
+                </div>
+                    
             </section>
     
     
