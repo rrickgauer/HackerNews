@@ -11,7 +11,7 @@ const mStories = new Stories(eStoriesContainer);
 
 // main logic
 $(document).ready(function() {
-    mStories.fetchTopStories(Stories.SortingTypes.Score);
+    mStories.fetchTopStories(Stories.STORY_TYPES.STORY);
     addEventListeners();
 });
 

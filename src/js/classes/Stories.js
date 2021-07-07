@@ -1,29 +1,57 @@
 
 
+
+
+/**
+ * This class is responsible for retrieving and displaying all the stories.
+ */
 class Stories
 {
-    static DisplayTypes = {
+    static DISPLAY_TYPES = {
         Card: 'card',
         List: 'list',
     }
+    
 
-    static SortingTypes = {
-        None: 0,
+    static SORTING_TYPES = {
+        Default: 0,
         Score: 1,
         Descendants: 2,
         Title: 3,
     }
 
+    static STORY_TYPES = {
+        JOB: 'job',
+        STORY: 'story',
+        COMMENT: 'comment',
+        POLL: 'poll',
+        POLLOPT: 'pollopt',
+    };
+
+    /**
+     * Constructor
+     * @param {string} a_strDisplayElement css selector of where to place all the story cards
+     */
     constructor(a_strDisplayElement) {
         this.displayElement = a_strDisplayElement;
         this.stories = [];
     }
 
-    async fetchTopStories(a_enumSortingType = Stories.SortingTypes.None) {
+
+    /**
+     * Fetch the stories from the hackernews api 
+     * @param {Stories.SortingTypes} a_enumSortingType How should the stories be sorted once they have been fetched
+     */
+    async fetchTopStories(a_enumSortingType = Stories.SORTING_TYPES.Default) {
         const topStoriesList = await ApiWrapper.getTopStoriesIds();
         this.fetchStories(topStoriesList, a_enumSortingType);
     }
 
+    /**
+     * Fetch the stories api responses using the given sorting types 
+     * @param {list[int]} a_listStoryIDs list of story ids
+     * @param {Stories.SortingTypes} a_enumSortingType sorting type
+     */
     async fetchStories(a_listStoryIDs, a_enumSortingType) {
         const self = this;
         const storyPromises = [];
@@ -39,18 +67,17 @@ class Stories
 
         // weed out all of the non stories
         for (const story of storyPromisesResponses) {
-            if (story.type == Constants.TYPES.STORY) {
+            if (story.type == Stories.STORY_TYPES.STORY) {
                 this.stories.push(story);
             }
         }
 
-
         switch(a_enumSortingType) {
-            case Stories.SortingTypes.Score:
+            case Stories.SORTING_TYPES.Score:
                 self.sortStoriesByScore(); break;
-            case Stories.SortingTypes.Descendants:
+            case Stories.SORTING_TYPES.Descendants:
                 self.sortStoriesByDescendants(); break;
-            case Stories.SortingTypes.Title:
+            case Stories.SORTING_TYPES.Title:
                 self.sortStoriesByTitle(); break;
         }
 
@@ -58,21 +85,27 @@ class Stories
     }
 
 
-    // sort the stories by their score
+    /**
+     * Sort the stories by their score
+     */
     sortStoriesByScore() {
         this.stories.sort(function(a, b) {
             return (a.score > b.score ? -1 : 1);
         });
     }
 
-    // sort the stories by the number of comments
+    /**
+     * Sort the stories by the number of comments
+     */
     sortStoriesByDescendants() {
         this.stories.sort(function(a, b) {
             return (a.descendants > b.descendants ? -1 : 1);
         });
     }
 
-    // sort the stories by the title
+    /**
+     * Sort the stories by the title
+     */
     sortStoriesByTitle() {
         this.stories.sort(function(a, b) {
             const titleA = a.title.toUpperCase();
@@ -82,7 +115,9 @@ class Stories
         });
     }
 
-
+    /**
+     * Display the stories on the page
+     */
     displayStories() {
         let html = '<div class="card-deck">';
         let count = 0;
