@@ -11,7 +11,7 @@ const mStories = new Stories(eStoriesContainer);
 
 // main logic
 $(document).ready(function() {
-    mStories.fetchTopStories(Stories.STORY_TYPES.STORY);
+    mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
     addEventListeners();
 });
 
@@ -27,11 +27,11 @@ function addEventListeners() {
     });
 }
 
-
-
 function updateStorySorting() {
-    const newSortingValue = $(eSortingSelect).find('option:checked').val();
+    const newSortingValue = parseInt($(eSortingSelect).find('option:checked').val());
+    
     mStories.fetchTopStories(newSortingValue);
+    
     showStoriesContainerSpinner();
 }
 

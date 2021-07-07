@@ -49,8 +49,8 @@ class Stories
 
     /**
      * Fetch the stories api responses using the given sorting types 
-     * @param {list[int]} a_listStoryIDs list of story ids
-     * @param {Stories.SortingTypes} a_enumSortingType sorting type
+     * @param {list[number]} a_listStoryIDs list of story ids
+     * @param {number} a_enumSortingType sorting type
      */
     async fetchStories(a_listStoryIDs, a_enumSortingType) {
         const self = this;
@@ -74,11 +74,14 @@ class Stories
 
         switch(a_enumSortingType) {
             case Stories.SORTING_TYPES.Score:
-                self.sortStoriesByScore(); break;
+                self.sortStoriesByScore(); 
+                break;
             case Stories.SORTING_TYPES.Descendants:
-                self.sortStoriesByDescendants(); break;
+                self.sortStoriesByDescendants(); 
+                break;
             case Stories.SORTING_TYPES.Title:
-                self.sortStoriesByTitle(); break;
+                self.sortStoriesByTitle(); 
+                break;
         }
 
         this.displayStories();
@@ -89,7 +92,8 @@ class Stories
      * Sort the stories by their score
      */
     sortStoriesByScore() {
-        this.stories.sort(function(a, b) {
+
+        this.stories = this.stories.sort(function(a, b) {
             return (a.score > b.score ? -1 : 1);
         });
     }
@@ -98,7 +102,7 @@ class Stories
      * Sort the stories by the number of comments
      */
     sortStoriesByDescendants() {
-        this.stories.sort(function(a, b) {
+        this.stories = this.stories.sort(function(a, b) {
             return (a.descendants > b.descendants ? -1 : 1);
         });
     }
@@ -107,7 +111,7 @@ class Stories
      * Sort the stories by the title
      */
     sortStoriesByTitle() {
-        this.stories.sort(function(a, b) {
+        this.stories = this.stories.sort(function(a, b) {
             const titleA = a.title.toUpperCase();
             const titleB = b.title.toUpperCase();
 
