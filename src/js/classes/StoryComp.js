@@ -20,18 +20,24 @@ class StoryComp
         }
 
         this.siteUrl = `https://news.ycombinator.com/item?id=${this.id}`;
+        
         this.dt = DateTime.fromSeconds(this.time);
+        this.dtDiff = Dates.getDiffNow(this.dt);
     }
 
-
+    /**
+     * Generate the card html
+     * @returns Story card html string
+     */
     getCardHtml() {
         const url = this.url == null ? this.siteUrl : this.url;
+        const dtDisplay = Dates.getDiffDisplayString(this.dtDiff);
 
         let html = `
         <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
             <div class="card-body">
                 <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
-                <p class="text-muted"><small>${this.dt.toFormat('f')}</small></p>
+                <p class="text-muted"><small>${dtDisplay}</small></p>
                 <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
             </div>
             <div class="card-footer px-4">
@@ -44,5 +50,7 @@ class StoryComp
 
         return html;
     }
+
+    
 }
 

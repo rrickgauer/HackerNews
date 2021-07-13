@@ -20,6 +20,7 @@ class Comment
         }
 
         this.dt = DateTime.fromSeconds(this.time);
+        this.dtDiff = Dates.getDiffNow(this.dt);
 
     }
 
@@ -28,14 +29,12 @@ class Comment
         const self = this;
 
         const userUrl = `<a class="text-reset" href=${ApiWrapper.getUserUrl(self.by)}>${self.by}</a>`;
-        const dateDisplay = this.dt.toFormat('f');
+        const dateDisplay = Dates.getDiffDisplayString(this.dtDiff);
 
         let html = `
         <hr>
         <li class="comment-item">
-            <p class="comment-item-meta">
-                <small class="text-muted">${userUrl} &#183; ${dateDisplay}</small>
-            </p>
+            <p class="comment-item-meta"><small class="text-muted">${userUrl} &#183; ${dateDisplay}</small></p>
             
             <div class="comment-item-text">
                 ${self.text}
