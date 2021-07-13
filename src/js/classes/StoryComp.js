@@ -21,6 +21,7 @@ class StoryComp
 
         this.siteUrl = `https://news.ycombinator.com/item?id=${this.id}`;
         this.dt = DateTime.fromSeconds(this.time);
+
     }
 
 
@@ -44,5 +45,7 @@ class StoryComp
 
         return html;
     }
+
+    
 }
 
