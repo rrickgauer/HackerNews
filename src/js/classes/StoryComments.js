@@ -82,10 +82,9 @@ class StoryComments
             html += commentObj.getHtml();
         }
 
-        
-        $('#comments-list').html(html).find('a').attr("target", "_blank");;
-
-        // $(html).
+        // display the html
+        // make all links found within the comments section open a new tab
+        $('#comments-list').html(html).find('a').attr("target", "_blank");
     }
 
 }
