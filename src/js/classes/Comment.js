@@ -2,7 +2,7 @@
 
 
 class Comment
-{
+{   
     constructor(a_oApiResponse) {
         this.by = null;
         this.id = null;
@@ -35,7 +35,7 @@ class Comment
         const kidsCommentsDisplay = this.getChildrenHtml();
 
         let html = `<hr>
-        <li class="comment-item comment-item-visible">
+        <li class="comment-item">
             <div class="d-flex">
                 <p class="comment-item-meta"><small class="text-muted">${userUrlDisplay} &#183; ${dateDisplay}</small></p>
                 <button type="button" class="btn btn-sm btn-secondary comment-item-btn-toggle-thread ml-3">Toggle</button>

@@ -41,4 +41,9 @@ body {
     }
 }
 
+.comment-item.comment-item-hidden {
+    .comment-item-thread {
+        display: none;
+    }
+}
 

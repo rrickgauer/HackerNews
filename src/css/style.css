@@ -32,4 +32,8 @@ body {
   margin-bottom: 5px;
 }
 
+.comment-item.comment-item-hidden .comment-item-thread {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */
