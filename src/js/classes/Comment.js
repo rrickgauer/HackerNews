@@ -34,14 +34,16 @@ class Comment
         let html = `
         <hr>
         <li class="comment-item">
-            <p class="comment-item-meta"><small class="text-muted">${userUrl} &#183; ${dateDisplay}</small></p>
+            <p class="comment-item-meta">
+                <small class="text-muted">${userUrl} &#183; ${dateDisplay}</small>
+            </p>
             
             <div class="comment-item-text">
                 ${self.text}
-            </div>
-        </li>`;
+            </div>`;
 
         if (self.kids == null) {
+            html += '</li>';
             return html;
         }
 
@@ -52,7 +54,7 @@ class Comment
             html += kidComment.getHtml();
         }
 
-        html += `</ul>`;
+        html += `</ul></li>`;
 
         return html;
     }
