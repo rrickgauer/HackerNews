@@ -43,7 +43,10 @@ class StoryComments
      * @param {StoryComp} a_oStoryMetadata - Story comp object
      */
     displayStoryMetadata(a_oStoryMetadata) {
-        $(this.metadataDisplayPageTitle).text(a_oStoryMetadata.title);
+
+        console.log(a_oStoryMetadata);
+
+        // $(this.metadataDisplayPageTitle).text(a_oStoryMetadata.title);
         $('title').text(a_oStoryMetadata.title);
     }
 

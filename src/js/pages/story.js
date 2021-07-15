@@ -1,7 +1,7 @@
 
 
 const eMetadataDisplays = {
-    title: '#story-meta-title',
+    title: '#story-meta-link-title',
     link: '#story-meta-link',
     hackernewsLink: '#story-meta-hackernews-link',
 }
