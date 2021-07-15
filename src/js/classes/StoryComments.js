@@ -84,7 +84,7 @@ class StoryComments
 
         // display the html
         // make all links found within the comments section open a new tab
-        $('#comments-list').html(html).find('a').attr("target", "_blank");;
+        $('#comments-list').html(html).find('a').attr("target", "_blank");
     }
 
 }

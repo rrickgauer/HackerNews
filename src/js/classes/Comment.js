@@ -37,8 +37,12 @@ class Comment
         let html = `<hr>
         <li class="comment-item">
             <div class="d-flex">
-                <p class="comment-item-meta"><small class="text-muted">${userUrlDisplay} &#183; ${dateDisplay}</small></p>
-                <button type="button" class="btn btn-sm btn-secondary comment-item-btn-toggle-thread ml-3">Toggle</button>
+                <p class="comment-item-meta">
+                    <small class="text-muted">
+                        <span>${userUrlDisplay} &#183; ${dateDisplay}</span> &#183; 
+                        <a href="#" class="text-reset comment-item-btn-toggle-thread">Hide</a>
+                    </small>
+                </p>
             </div>
 
             <div class="comment-item-thread">

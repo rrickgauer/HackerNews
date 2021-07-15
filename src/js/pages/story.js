@@ -30,16 +30,28 @@ $(document).ready(function() {
 });
 
 
-
+/**
+ * Add the event listeners to the page elements
+ */
 function addListeners() {
-    $(eCommentsContainer).on('click', eComments.toggleButton, function() {
+    $(eCommentsContainer).on('click', eComments.toggleButton, function(e) {
+        e.preventDefault();
         toggleCommentVisibility(this);
     });
 }
 
 
-
+/**
+ * Show/hide a comment thread actions
+ */
 function toggleCommentVisibility(a_eCommentItemButton) {
-    $(a_eCommentItemButton).closest(eComments.item).toggleClass(eComments.visibilityClass);
+    const eComment = $(a_eCommentItemButton).closest(eComments.item);
+
+    // toggle comment visibility
+    $(eComment).toggleClass(eComments.visibilityClass);
+
+    // update the button text to show or hide
+    const btnText = $(eComment).hasClass(eComments.visibilityClass) ? 'Show' : 'Hide';
+    $(a_eCommentItemButton).text(btnText);
 }
 

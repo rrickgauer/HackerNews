@@ -36,4 +36,16 @@ body {
   display: none;
 }
 
+.btn .btn-text-mute {
+  line-height: 1.5;
+  word-wrap: break-word;
+  list-style: none;
+  font-size: 80%;
+  font-weight: 400;
+  box-sizing: border-box;
+  text-decoration: none;
+  background-color: transparent;
+  color: inherit !important;
+}
+
 /*# sourceMappingURL=style.css.map */
