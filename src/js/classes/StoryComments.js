@@ -6,12 +6,10 @@ class StoryComments
     /**
      * @constructor
      * @param {number} a_iStoryID - story id
-     * @param {string} a_strMetadataDisplayPageTitle - html selectory of where to display the story title
      */
-    constructor(a_iStoryID, a_strMetadataDisplayPageTitle) {
+    constructor(a_iStoryID) {
         this.comments = {};
         this.storyID = a_iStoryID;
-        this.metadataDisplayPageTitle = a_strMetadataDisplayPageTitle
     }
 
     /**
@@ -43,10 +41,6 @@ class StoryComments
      * @param {StoryComp} a_oStoryMetadata - Story comp object
      */
     displayStoryMetadata(a_oStoryMetadata) {
-
-        console.log(a_oStoryMetadata);
-
-        // $(this.metadataDisplayPageTitle).text(a_oStoryMetadata.title);
         $('title').text(a_oStoryMetadata.title);
     }
 

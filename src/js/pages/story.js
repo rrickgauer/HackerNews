@@ -1,10 +1,14 @@
 
-
-const eMetadataDisplays = {
-    title: '#story-meta-link-title',
-    link: '#story-meta-link',
-    hackernewsLink: '#story-meta-hackernews-link',
+const eMetaIDs = {
+    container: '#meta-container',
+    title: '#meta-title',
+    countComments: '#meta-count-comments',
+    countLikes: '#meta-count-likes',
+    date: '#meta-date',
+    linkStory: '#meta-link-story',
+    linkSite: '#meta-link-site',
 }
+
 
 const eCommentsContainer = '#comments-list';
 
@@ -17,14 +21,18 @@ const eComments = {
     visibilityClass: 'comment-item-hidden',
 }
 
+
+
 const mUrlParser = new UrlParser();
 const mStoryID = mUrlParser.getQueryParm('storyID');
 
-let mStoryComments = new StoryComments(mStoryID, eMetadataDisplays.title);
+const mStoryMeta = new StoryMeta(mStoryID);
+let mStoryComments = new StoryComments(mStoryID, eMetaIDs.title);
 
 
 // main logic
 $(document).ready(function() {
+    mStoryMeta.loadAndDisplayData();
     mStoryComments.fetchStoryData();
     addListeners();
 });

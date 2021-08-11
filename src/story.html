@@ -16,43 +16,30 @@
 <body>
 
     <main>
-        <div class="container mb-5">
-
-
-            <!-- <a href="#" id="story-meta-link">
-                <h1 id="story-meta-link-title">Title</h1>
-            </a>
-            
-
-            <p class="text-center">
-                <a href="#" id="story-meta-hackernews-link">View page</a>
-            </p> -->
-            
-            
-            <div class="card my-5">
-                <div class="card-body custom-shadow">
-                    <h1>So I guess this is the title</h1>
-
-                    <div class="card-deck">
-                        <div class="card card-body custom-shadow">5 comments</div>
-                        <div class="card card-body custom-shadow">5 likes</div>
-                        <div class="card card-body custom-shadow">10/24/2020</div>
+        <section id="meta-container">
+            <div class="container mb-5">
+                <div class="card my-5">
+                    <div class="card-body custom-shadow">
+                        <h1 id="meta-title">So I guess this is the title</h1>
+    
+                        <div class="card-deck">
+                            <div id="meta-count-comments" class="card card-body custom-shadow">5 comments</div>
+                            <div id="meta-count-likes" class="card card-body custom-shadow">5 likes</div>
+                            <div id="meta-date" class="card card-body custom-shadow">10/24/2020</div>
+                        </div>
+    
+                        <div class="d-flex">
+                            <a id="meta-link-story" href="#" class="btn btn-primary mr-3">Link to story</a>
+                            <a id="meta-link-site" href="#" class="btn btn-primary mr-3">Link to hackernews</a>
+                        </div>
+    
                     </div>
-
-                    <div class="d-flex">
-                        <a href="#" class="btn btn-primary mr-3">Link to story</a>
-                        <a href="#" class="btn btn-primary mr-3">Link to hackernews</a>
-                    </div>
-
                 </div>
-
             </div>
+        </section>
 
-
-
-            
-
-            <section id="comments-container">
+        <section id="comments-container">
+            <div class="container">
                 <div class="card">
                     <div class="card-body">
                         <ul id="comments-list" class="list-unstyled">
@@ -62,15 +49,15 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
-
-                        </ul>    
+                        </ul>
                     </div>
                 </div>
-                    
-            </section>
-    
-    
-        </div>
+
+            </div>
+        </section>
+
+
+
     </main>
 
 
@@ -91,6 +78,7 @@
     <script src="js/classes/ApiWrapper.js"></script>
     <script src="js/classes/Comment.js"></script>
     <script src="js/classes/StoryComp.js"></script>
+    <script src="js/classes/StoryMeta.js"></script>
     <script src="js/classes/StoryComments.js"></script>
     <script src="js/pages/story.js"></script>
 
