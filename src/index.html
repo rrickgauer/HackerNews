@@ -17,38 +17,45 @@
 <body>
 
     <div class="container mb-5">
-        <h1 class="my-5">Hacker News</h1>
-        <div class="d-flex mb-3">
 
-            <!-- sort by input -->
-            <div class="d-flex align-items-baseline mr-5">
-                <span><b>Sort by:</b></span>
-                <div class="ml-2">
-                    <select id="stories-sort-option" class="form-control form-control-sm">
-                        <option value="0">Default</option>
-                        <option value="1">Score</option>
-                        <option value="2">Comments</option>
-                        <option value="3">Title</option>
-                    </select>
+        <div class="d-block d-lg-flex align-items-center justify-content-between mt-5">
+            <h1>Hacker News</h1>
+        
+            <!-- sort/display options -->
+            <div class="d-flex">
+                <!-- sort by input -->
+                <div class="d-flex align-items-baseline mr-4">
+                    <span><b>Sort by:</b></span>
+                    <div class="ml-2">
+                        <select id="stories-sort-option" class="form-control form-control-sm">
+                            <option value="0">Default</option>
+                            <option value="1">Score</option>
+                            <option value="2">Comments</option>
+                            <option value="3">Title</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <!-- view selection -->
+                <div class="d-flex align-items-baseline">
+                    <span><b>Display:</b></span>
+                    <div class="btn-group btn-group-sm btn-group-toggle ml-2" data-toggle="buttons">
+                        <!-- gallery view -->
+                        <label class="btn btn-outline-secondary active" title="Gallery view">
+                            <input type="radio" name="stories-display-option" checked value="gallery"> <i class='bx bxs-grid'></i>
+                        </label>
+                        <!-- list view -->
+                        <label class="btn btn-outline-secondary" title="List view">
+                            <input type="radio" name="stories-display-option" value="list"> <i class='bx bx-list-ul'></i>
+                        </label>
+                    </div>
                 </div>
             </div>
-
-            <!-- view selection -->
-            <div class="d-flex align-items-baseline mr-5">
-                <span><b>Display:</b></span>
-                <div class="btn-group btn-group-sm btn-group-toggle ml-2" data-toggle="buttons">
-                    <!-- gallery view -->
-                    <label class="btn btn-outline-secondary active" title="Gallery view">
-                        <input type="radio" name="stories-display-option" checked value="gallery"> <i class='bx bxs-grid'></i>
-                    </label>
-                    <!-- list view -->
-                    <label class="btn btn-outline-secondary" title="List view">
-                        <input type="radio" name="stories-display-option" value="list"> <i class='bx bx-list-ul'></i>
-                    </label>
-                </div>
-            </div>
-
         </div>
+
+
+
+        <hr class="mb-4">
 
         <!-- stories get placed here -->
         <div id="stories-container"></div>
