@@ -51,6 +51,26 @@ class StoryComp
         return html;
     }
 
+    getListItemHtml() {
+        const url = this.url == null ? this.siteUrl : this.url;
+        const dtDisplay = Dates.getDiffDisplayString(this.dtDiff);
+
+        let html = `
+        <li class="list-group-item" data-id=${this.id}>
+            <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
+            <p class="text-muted"><small>${dtDisplay}</small></p>
+            <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
+            <div class="d-flex align-baseline">
+                <span class="mr-3"><i class='bx bx-like'></i>&nbsp;${this.score}</span>
+                <span><i class='bx bx-comment-detail'></i>&nbsp;${this.descendants}</span>
+            </div>
+        </li>`;
+
+        return html;
+
+
+    }
+
     
 }
 

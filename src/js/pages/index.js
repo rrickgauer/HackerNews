@@ -2,6 +2,8 @@
 const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
 const eStoryCardClass = `.${StoryComp.cardElementClass}`;
+
+const eViewSelection = 'stories-display-option';
 const mStories = new Stories(eStoriesContainer);
 
 /**************************************************
@@ -24,6 +26,10 @@ function addEventListeners() {
     $('body').on('click', eStoryCardClass, function(e) {
         gotoStory(e);
     });
+
+    $(`input[name='${eViewSelection}']`).on('change', function(e) {
+        updateStorySorting();
+    });
 }
 
 /**************************************************
@@ -31,6 +37,7 @@ Update the stories sorting
 ***************************************************/
 function updateStorySorting() {
     const newSortingValue = parseInt($(eSortingSelect).find('option:checked').val());
+    mStories.displayType = getStoriesViewInputValue();
     mStories.fetchTopStories(newSortingValue);
     showStoriesContainerSpinner();
 }
@@ -63,6 +70,21 @@ function gotoStory(e) {
 
     const url = `story.html?storyID=${storyID}`;
     window.open(url, "_blank");
+}
+
+
+function updateStoriesView() {
+    const viewType =  getStoriesViewInputValue();
+
+    mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
+    
+}
+
+/**************************************************
+Get the value of the checked stories view radio option.
+***************************************************/
+function getStoriesViewInputValue() {
+    return $(`input[name='${eViewSelection}']:checked`).val();
 }
 
 
