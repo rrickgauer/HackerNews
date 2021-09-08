@@ -10,14 +10,19 @@ body {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
 }
 
-.card-story {
+.story-item-list-item:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+
+.story-item-card {
   transition: all 0.07s ease-in-out;
 }
-.card-story:hover {
+.story-item-card:hover {
   transform: scale(1.05);
   cursor: pointer;
 }
-.card-story .card-footer {
+.story-item-card .card-footer {
   background-color: inherit;
 }
 

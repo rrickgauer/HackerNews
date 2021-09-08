@@ -15,7 +15,13 @@ body {
 }
 
 
-.card-story {
+.story-item-list-item:hover {
+    background-color: #e2e2e2;
+    cursor: pointer;
+}
+
+
+.story-item-card {
     transition: all .07s ease-in-out;
 
     &:hover {

@@ -1,7 +1,7 @@
 
 const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
-const eStoryCardClass = `.${StoryComp.cardElementClass}`;
+const eStoryItemClass = `.${StoryComp.StoryItemClass}`;
 
 const eViewSelection = 'stories-display-option';
 const mStories = new Stories(eStoriesContainer);
@@ -10,6 +10,7 @@ const mStories = new Stories(eStoriesContainer);
 Main logic
 ***************************************************/
 $(document).ready(function() {
+    showStoriesContainerSpinner();
     mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
     addEventListeners();
 });
@@ -22,13 +23,12 @@ function addEventListeners() {
         updateStorySorting();
     });
 
-
-    $('body').on('click', eStoryCardClass, function(e) {
+    $('body').on('click', eStoryItemClass, function(e) {
         gotoStory(e);
     });
 
     $(`input[name='${eViewSelection}']`).on('change', function(e) {
-        updateStorySorting();
+        updateStoriesView();
     });
 }
 
@@ -65,19 +65,20 @@ function gotoStory(e) {
         return;
     }
 
-    const card = $(e.target).closest(eStoryCardClass);
+    const card = $(e.target).closest(eStoryItemClass);
     const storyID = $(card).attr('data-id');
 
     const url = `story.html?storyID=${storyID}`;
     window.open(url, "_blank");
 }
 
-
+/**************************************************
+Update the story elements view (gallery or list).
+***************************************************/
 function updateStoriesView() {
-    const viewType =  getStoriesViewInputValue();
-
-    mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
-    
+    showStoriesContainerSpinner();
+    mStories.displayType = getStoriesViewInputValue();
+    mStories.displayStories();
 }
 
 /**************************************************
