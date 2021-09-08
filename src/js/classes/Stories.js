@@ -8,7 +8,7 @@
 class Stories
 {
     static DISPLAY_TYPES = {
-        Card: 'card',
+        Gallery: 'gallery',
         List: 'list',
     }
     
@@ -35,6 +35,7 @@ class Stories
     constructor(a_strDisplayElement) {
         this.displayElement = a_strDisplayElement;
         this.stories = [];
+        this.displayType = Stories.DISPLAY_TYPES.Gallery;
     }
 
 
@@ -123,6 +124,19 @@ class Stories
      * Display the stories on the page
      */
     displayStories() {
+
+        if (this.displayType == Stories.DISPLAY_TYPES.Gallery) {
+            this.displayStoriesGallery();
+        } else {
+            this.displayStoriesList();
+        }
+
+    }
+
+    /**
+     * Display the stories on the page AS A GALLERY
+     */
+    displayStoriesGallery() {
         let html = '<div class="card-deck">';
         let count = 0;
 
@@ -139,6 +153,22 @@ class Stories
         }
 
         html += '</div>';
+
+        $(this.displayElement).html(html);
+    }
+
+    /**
+     * Display the stories on the page AS A LIST
+     */
+    displayStoriesList() {
+        let html = `<ul class="list-group">`;
+
+        for (const story of this.stories) {
+            const storyCard = new StoryComp(story);
+            html += storyCard.getListItemHtml();
+        }
+
+        html += '</ul>';
 
         $(this.displayElement).html(html);
     }

@@ -44,7 +44,7 @@ function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj
  */class Stories{/**
      * Constructor
      * @param {string} a_strDisplayElement css selector of where to place all the story cards
-     */constructor(a_strDisplayElement){this.displayElement=a_strDisplayElement;this.stories=[]}/**
+     */constructor(a_strDisplayElement){this.displayElement=a_strDisplayElement;this.stories=[];this.displayType=Stories.DISPLAY_TYPES.Gallery}/**
      * Fetch the stories from the hackernews api 
      * @param {Stories.SortingTypes} a_enumSortingType How should the stories be sorted once they have been fetched
      */async fetchTopStories(a_enumSortingType=Stories.SORTING_TYPES.Default){const topStoriesList=await ApiWrapper.getTopStoriesIds();this.fetchStories(topStoriesList,a_enumSortingType)}/**
@@ -61,7 +61,11 @@ for(const story of storyPromisesResponses){if(story.type==Stories.STORY_TYPES.ST
      * Sort the stories by the title
      */sortStoriesByTitle(){this.stories=this.stories.sort(function(a,b){const titleA=a.title.toUpperCase();const titleB=b.title.toUpperCase();return titleA<titleB?-1:1})}/**
      * Display the stories on the page
-     */displayStories(){let html="<div class=\"card-deck\">";let count=0;for(const story of this.stories){if(count==3){html+="</div><div class=\"card-deck\">";count=0}const storyCard=new StoryComp(story);html+=storyCard.getCardHtml();count++}html+="</div>";$(this.displayElement).html(html)}}_defineProperty(Stories,"DISPLAY_TYPES",{Card:"card",List:"list"});_defineProperty(Stories,"SORTING_TYPES",{Default:0,Score:1,Descendants:2,Title:3});_defineProperty(Stories,"STORY_TYPES",{JOB:"job",STORY:"story",COMMENT:"comment",POLL:"poll",POLLOPT:"pollopt"});
+     */displayStories(){if(this.displayType==Stories.DISPLAY_TYPES.Gallery){this.displayStoriesGallery()}else{this.displayStoriesList()}}/**
+     * Display the stories on the page AS A GALLERY
+     */displayStoriesGallery(){let html="<div class=\"card-deck\">";let count=0;for(const story of this.stories){if(count==3){html+="</div><div class=\"card-deck\">";count=0}const storyCard=new StoryComp(story);html+=storyCard.getCardHtml();count++}html+="</div>";$(this.displayElement).html(html)}/**
+     * Display the stories on the page AS A LIST
+     */displayStoriesList(){let html=`<ul class="list-group">`;for(const story of this.stories){const storyCard=new StoryComp(story);html+=storyCard.getListItemHtml()}html+="</ul>";$(this.displayElement).html(html)}}_defineProperty(Stories,"DISPLAY_TYPES",{Gallery:"gallery",List:"list"});_defineProperty(Stories,"SORTING_TYPES",{Default:0,Score:1,Descendants:2,Title:3});_defineProperty(Stories,"STORY_TYPES",{JOB:"job",STORY:"story",COMMENT:"comment",POLL:"poll",POLLOPT:"pollopt"});
 class StoryComments{/**
      * @constructor
      * @param {number} a_iStoryID - story id
@@ -89,6 +93,8 @@ $("#comments-list").html(html).find("a").attr("target","_blank")}}
 function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}class StoryComp{constructor(a_apiResponse){this.by=null;this.descendants=null;this.id=null;this.kids=[];this.score=null;this.time=null;this.title=null;this.type=null;this.url=null;for(const key of Object.keys(a_apiResponse)){this[key]=a_apiResponse[key]}this.siteUrl=`https://news.ycombinator.com/item?id=${this.id}`;this.dt=DateTime.fromSeconds(this.time);this.dtDiff=Dates.getDiffNow(this.dt)}/**
      * Generate the card html
      * @returns Story card html string
+     */getCardHtml(){const url=this.url==null?this.siteUrl:this.url;const dtDisplay=Dates.getDiffDisplayString(this.dtDiff);let html=`
+        <div class="${StoryComp.StoryItemClass} card ${StoryComp.StoryCardClass} custom-shadow" data-id=${this.id}>
      */getCardHtml(){const url=this.url==null?this.siteUrl:this.url;const dtDisplay=Dates.getDiffDisplayString(this.dtDiff);// add commas to score and descendants
 const scoreDisplay=this.score.toLocaleString();const descendantsDisplay=this.descendants.toLocaleString();let html=`
         <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
@@ -103,7 +109,16 @@ const scoreDisplay=this.score.toLocaleString();const descendantsDisplay=this.des
                     <span><i class='bx bx-comment-detail'></i>&nbsp;${descendantsDisplay}</span>
                 </div>
             </div>
-        </div>`;return html}}_defineProperty(StoryComp,"cardElementClass","card-story");
+        </div>`;return html}getListItemHtml(){const url=this.url==null?this.siteUrl:this.url;const dtDisplay=Dates.getDiffDisplayString(this.dtDiff);let html=`
+        <li class="${StoryComp.StoryItemClass} ${StoryComp.StoryListItemClass} list-group-item" data-id=${this.id}>
+            <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
+            <p class="text-muted"><small>${dtDisplay}</small></p>
+            <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
+            <div class="d-flex align-baseline">
+                <span class="mr-3"><i class='bx bx-like'></i>&nbsp;${this.score}</span>
+                <span><i class='bx bx-comment-detail'></i>&nbsp;${this.descendants}</span>
+            </div>
+        </li>`;return html}}_defineProperty(StoryComp,"StoryItemClass","story-item");_defineProperty(StoryComp,"StoryCardClass","story-item-card");_defineProperty(StoryComp,"StoryListItemClass","story-item-list-item");
 function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}/**
  * Class to display the metadata for a story.
  */class StoryMeta{/**
@@ -117,14 +132,27 @@ this.title=null;this.countComments=null;this.countLikes=null;this.date=null;this
      * Load the metadata then display it.
      */}_defineProperty(StoryMeta,"CONTAINER","#meta-container");_defineProperty(StoryMeta,"TITLE","#meta-title");_defineProperty(StoryMeta,"COUNT_COMMENTS","#meta-count-comments");_defineProperty(StoryMeta,"COUNT_LIKES","#meta-count-likes");_defineProperty(StoryMeta,"DATE","#meta-date");_defineProperty(StoryMeta,"LINK_STORY","#meta-link-story");_defineProperty(StoryMeta,"LINK_SITE","#meta-link-site");
 class UrlParser{constructor(a_strUrl=null){if(a_strUrl==undefined||a_strUrl==null){this.url=window.location}this.queryString=window.location.search;this.urlParms=new URLSearchParams(this.queryString)}getQueryParm(a_strKey){return this.urlParms.get(a_strKey)}}
-const eSortingSelect="#stories-sort-option";const eStoriesContainer="#stories-container";const eStoryCardClass=`.${StoryComp.cardElementClass}`;const mStories=new Stories(eStoriesContainer);// main logic
-$(document).ready(function(){mStories.fetchTopStories(Stories.SORTING_TYPES.Default);addEventListeners()});function addEventListeners(){$(eSortingSelect).on("change",function(){updateStorySorting()});$("body").on("click",eStoryCardClass,function(e){gotoStory(e)})}function updateStorySorting(){const newSortingValue=parseInt($(eSortingSelect).find("option:checked").val());mStories.fetchTopStories(newSortingValue);showStoriesContainerSpinner()}// show the spinner in the stories container
-function showStoriesContainerSpinner(){let html=`
+const eSortingSelect="#stories-sort-option";const eStoriesContainer="#stories-container";const eStoryItemClass=`.${StoryComp.StoryItemClass}`;const eViewSelection="stories-display-option";const mStories=new Stories(eStoriesContainer);/**************************************************
+Main logic
+***************************************************/$(document).ready(function(){showStoriesContainerSpinner();mStories.fetchTopStories(Stories.SORTING_TYPES.Default);addEventListeners()});/**************************************************
+Add all the event listeners
+***************************************************/function addEventListeners(){$(eSortingSelect).on("change",function(){updateStorySorting()});$("body").on("click",eStoryItemClass,function(e){gotoStory(e)});$(`input[name='${eViewSelection}']`).on("change",function(e){updateStoriesView()})}/**************************************************
+Update the stories sorting
+***************************************************/function updateStorySorting(){const newSortingValue=parseInt($(eSortingSelect).find("option:checked").val());mStories.displayType=getStoriesViewInputValue();mStories.fetchTopStories(newSortingValue);showStoriesContainerSpinner()}/**************************************************
+Show the spinner in the stories container
+***************************************************/function showStoriesContainerSpinner(){let html=`
     <div class="d-flex justify-content-center mt-5">
         <div class="spinner-border text-primary mt-5" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-    </div>`;$(eStoriesContainer).html(html)}function gotoStory(e){if(e.target.className=="card-story-link"){return}const card=$(e.target).closest(eStoryCardClass);const storyID=$(card).attr("data-id");const url=`story.html?storyID=${storyID}`;window.open(url,"_blank")}
+    </div>`;$(eStoriesContainer).html(html)}/**************************************************
+Depending on which part of the story card the user clicked,
+go to either the comments section page, or the story url.
+***************************************************/function gotoStory(e){if(e.target.className=="card-story-link"){return}const card=$(e.target).closest(eStoryItemClass);const storyID=$(card).attr("data-id");const url=`story.html?storyID=${storyID}`;window.open(url,"_blank")}/**************************************************
+Update the story elements view (gallery or list).
+***************************************************/function updateStoriesView(){showStoriesContainerSpinner();mStories.displayType=getStoriesViewInputValue();mStories.displayStories()}/**************************************************
+Get the value of the checked stories view radio option.
+***************************************************/function getStoriesViewInputValue(){return $(`input[name='${eViewSelection}']:checked`).val()}
 const eMetaIDs={container:"#meta-container",title:"#meta-title",countComments:"#meta-count-comments",countLikes:"#meta-count-likes",date:"#meta-date",linkStory:"#meta-link-story",linkSite:"#meta-link-site"};const eCommentsContainer="#comments-list";const eComments={item:".comment-item",toggleButton:".comment-item-btn-toggle-thread",meta:".comment-item-meta",thread:".comment-item-thread",text:".comment-item-text",visibilityClass:"comment-item-hidden"};const mUrlParser=new UrlParser;const mStoryID=mUrlParser.getQueryParm("storyID");const mStoryMeta=new StoryMeta(mStoryID);let mStoryComments=new StoryComments(mStoryID,eMetaIDs.title);// main logic
 $(document).ready(function(){mStoryMeta.loadAndDisplayData();mStoryComments.fetchStoryData();addListeners()});/**
  * Add the event listeners to the page elements

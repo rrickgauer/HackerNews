@@ -1,41 +1,50 @@
 
 const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
+const eStoryItemClass = `.${StoryComp.StoryItemClass}`;
 
-const eStoryCardClass = `.${StoryComp.cardElementClass}`;
-
-
+const eViewSelection = 'stories-display-option';
 const mStories = new Stories(eStoriesContainer);
 
-
-
-// main logic
+/**************************************************
+Main logic
+***************************************************/
 $(document).ready(function() {
+    showStoriesContainerSpinner();
     mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
     addEventListeners();
 });
 
-
+/**************************************************
+Add all the event listeners
+***************************************************/
 function addEventListeners() {
     $(eSortingSelect).on('change', function() {
         updateStorySorting();
     });
 
-
-    $('body').on('click', eStoryCardClass, function(e) {
+    $('body').on('click', eStoryItemClass, function(e) {
         gotoStory(e);
+    });
+
+    $(`input[name='${eViewSelection}']`).on('change', function(e) {
+        updateStoriesView();
     });
 }
 
+/**************************************************
+Update the stories sorting
+***************************************************/
 function updateStorySorting() {
     const newSortingValue = parseInt($(eSortingSelect).find('option:checked').val());
-    
+    mStories.displayType = getStoriesViewInputValue();
     mStories.fetchTopStories(newSortingValue);
-    
     showStoriesContainerSpinner();
 }
 
-// show the spinner in the stories container
+/**************************************************
+Show the spinner in the stories container
+***************************************************/
 function showStoriesContainerSpinner() {
     let html = `
     <div class="d-flex justify-content-center mt-5">
@@ -47,17 +56,36 @@ function showStoriesContainerSpinner() {
     $(eStoriesContainer).html(html);
 }
 
-
+/**************************************************
+Depending on which part of the story card the user clicked,
+go to either the comments section page, or the story url.
+***************************************************/
 function gotoStory(e) {
     if (e.target.className == 'card-story-link') {
         return;
     }
 
-    const card = $(e.target).closest(eStoryCardClass);
+    const card = $(e.target).closest(eStoryItemClass);
     const storyID = $(card).attr('data-id');
 
     const url = `story.html?storyID=${storyID}`;
     window.open(url, "_blank");
+}
+
+/**************************************************
+Update the story elements view (gallery or list).
+***************************************************/
+function updateStoriesView() {
+    showStoriesContainerSpinner();
+    mStories.displayType = getStoriesViewInputValue();
+    mStories.displayStories();
+}
+
+/**************************************************
+Get the value of the checked stories view radio option.
+***************************************************/
+function getStoriesViewInputValue() {
+    return $(`input[name='${eViewSelection}']:checked`).val();
 }
 
 
