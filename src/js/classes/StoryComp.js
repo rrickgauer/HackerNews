@@ -33,6 +33,10 @@ class StoryComp
         const url = this.url == null ? this.siteUrl : this.url;
         const dtDisplay = Dates.getDiffDisplayString(this.dtDiff);
 
+        // add commas to score and descendants
+        const scoreDisplay = this.score.toLocaleString();
+        const descendantsDisplay = this.descendants.toLocaleString();
+
         let html = `
         <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
             <div class="card-body">
@@ -42,15 +46,13 @@ class StoryComp
             </div>
             <div class="card-footer px-4">
                 <div class="d-flex align-baseline justify-content-between">
-                    <span><i class='bx bx-like'></i>&nbsp;${this.score}</span>
-                    <span><i class='bx bx-comment-detail'></i>&nbsp;${this.descendants}</span>
+                    <span><i class='bx bx-like'></i>&nbsp;${scoreDisplay}</span>
+                    <span><i class='bx bx-comment-detail'></i>&nbsp;${descendantsDisplay}</span>
                 </div>
             </div>
         </div>`;
 
         return html;
     }
-
-    
 }
 
