@@ -13,5 +13,5 @@ https://github.com/HackerNews/API
 
 
 ```sh
-npx babel classes pages --out-file main.js --presets=@babel/preset-env --plugins=@babel/plugin-transform-runtime --watch
+npx babel src/js/classes src/js/pages --out-file src/js/main.js --watch --minified --plugins=@babel/plugin-proposal-class-properties
 ```
