@@ -171,7 +171,6 @@ class Stories
         html += '</ul>';
 
         $(this.displayElement).html(html);
-
     }
 }
 
