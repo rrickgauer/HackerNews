@@ -93,11 +93,9 @@ $("#comments-list").html(html).find("a").attr("target","_blank")}}
 function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}class StoryComp{constructor(a_apiResponse){this.by=null;this.descendants=null;this.id=null;this.kids=[];this.score=null;this.time=null;this.title=null;this.type=null;this.url=null;for(const key of Object.keys(a_apiResponse)){this[key]=a_apiResponse[key]}this.siteUrl=`https://news.ycombinator.com/item?id=${this.id}`;this.dt=DateTime.fromSeconds(this.time);this.dtDiff=Dates.getDiffNow(this.dt)}/**
      * Generate the card html
      * @returns Story card html string
-     */getCardHtml(){const url=this.url==null?this.siteUrl:this.url;const dtDisplay=Dates.getDiffDisplayString(this.dtDiff);let html=`
-        <div class="${StoryComp.StoryItemClass} card ${StoryComp.StoryCardClass} custom-shadow" data-id=${this.id}>
      */getCardHtml(){const url=this.url==null?this.siteUrl:this.url;const dtDisplay=Dates.getDiffDisplayString(this.dtDiff);// add commas to score and descendants
 const scoreDisplay=this.score.toLocaleString();const descendantsDisplay=this.descendants.toLocaleString();let html=`
-        <div class="card ${StoryComp.cardElementClass} custom-shadow" data-id=${this.id}>
+        <div class="${StoryComp.StoryItemClass} card ${StoryComp.StoryCardClass} custom-shadow" data-id=${this.id}>
             <div class="card-body">
                 <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
                 <p class="text-muted"><small>${dtDisplay}</small></p>
