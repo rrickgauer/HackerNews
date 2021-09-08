@@ -3,9 +3,19 @@
 
 class ApiWrapper
 {
+    static URL_BASE = 'https://hacker-news.firebaseio.com/v0/';
+    static URL_USER_BASE = 'https://news.ycombinator.com/user?id=';
+
+
+    static URLS = {
+        TOP: ApiWrapper.URL_BASE + 'topstories.json',
+        STORY: ApiWrapper.URL_BASE + 'item/',
+    }
+
     constructor() {
 
     }
+
 
     static async getTopStoriesIds() {
         let response = await fetch(ApiWrapper.URLS.TOP);
@@ -31,14 +41,7 @@ class ApiWrapper
 }
 
 
-ApiWrapper.URL_BASE = 'https://hacker-news.firebaseio.com/v0/';
-ApiWrapper.URL_USER_BASE = 'https://news.ycombinator.com/user?id=';
 
-
-ApiWrapper.URLS = {
-    TOP: ApiWrapper.URL_BASE + 'topstories.json',
-    STORY: ApiWrapper.URL_BASE + 'item/',
-}
 
 
 

@@ -34,6 +34,11 @@ class Comment
         const dateDisplay = Dates.getDiffDisplayString(this.dtDiff);
         const kidsCommentsDisplay = this.getChildrenHtml();
 
+
+        const displayText = self.formatText();
+
+        console.log(self.text);
+
         let html = `<hr>
         <li class="comment-item">
             <div class="d-flex">
@@ -46,7 +51,7 @@ class Comment
             </div>
 
             <div class="comment-item-thread">
-                <div class="comment-item-text">${self.text}</div>
+                <div class="comment-item-text">${displayText}</div>
                 <ul class="list-comments list-unstyled">${kidsCommentsDisplay}</ul>
             </div>
         </li>`;
@@ -67,6 +72,31 @@ class Comment
         }
 
         return kidsCommentsHtml;
+    }
+
+    /**
+     * Wraps the first section of the comment text in a <p> tag.
+     */
+    formatText() {
+        if (this.text == null) {
+            return this.text;
+        }
+
+        // get the index of the first p tag
+        const index = this.text.indexOf('<p>');
+
+        // split up the string where the tag starts
+        const startText = this.text.substring(0, index);
+        const endText = this.text.substring(index);
+
+        // wrap the initial section in a p tag
+        const outText = `<p>${startText}</p>${endText}`;
+        return outText;
+
+
+
+
+
     }
 }
 
