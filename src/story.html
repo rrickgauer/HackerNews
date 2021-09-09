@@ -43,12 +43,19 @@
                                 </div>
                             </div>
                         </div>
-    
-                        <div class="d-flex">
-                            <a id="meta-link-story" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to story</a>
-                            <a id="meta-link-site" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to hackernews</a>
+                        
+                        <div class="d-flex justify-content-between align-content-center">
+                            <div class="d-flex">
+                                <a id="meta-link-story" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to story</a>
+                                <a id="meta-link-site" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to hackernews</a>
+                            </div>
+
+                            <!-- widescreen option checkbox -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="widescreen-checkbox-input">
+                                <label class="custom-control-label" for="widescreen-checkbox-input">Widescreen</label>
+                            </div>
                         </div>
-    
                     </div>
                 </div>
             </div>
@@ -56,8 +63,10 @@
 
         <button type="button" class="btn btn-sm btn-outline-dark btn-scroll-top d-none">Back to top</button>
 
+
+
         <section id="comments-container">
-            <div class="container">
+            <div class="container" id="stories-bs-container">
                 <div class="card">
                     <div class="card-body">
                         <ul id="comments-list" class="list-unstyled">

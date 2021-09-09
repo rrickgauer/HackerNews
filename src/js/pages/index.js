@@ -3,6 +3,9 @@ const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
 const eStoryItemClass = `.${StoryComp.StoryItemClass}`;
 
+const eStoriesBsContainer = '#stories-bs-container';
+const eWidescreenCheckboxInput = '#widescreen-checkbox-input';
+
 const eViewSelection = 'stories-display-option';
 const mStories = new Stories(eStoriesContainer);
 
@@ -31,6 +34,10 @@ function addEventListeners() {
 
     $(`input[name='${eViewSelection}']`).on('change', function(e) {
         updateStoriesView();
+    });
+
+    $(eWidescreenCheckboxInput).on('change', function(e) {
+        toggleWideScreen();
     });
 }
 
@@ -88,6 +95,11 @@ Get the value of the checked stories view radio option.
 ***************************************************/
 function getStoriesViewInputValue() {
     return $(`input[name='${eViewSelection}']:checked`).val();
+}
+
+
+function toggleWideScreen() {
+    $(eStoriesBsContainer).toggleClass('container-fluid').toggleClass('container');
 }
 
 
