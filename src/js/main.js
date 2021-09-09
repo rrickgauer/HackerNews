@@ -130,9 +130,14 @@ this.title=null;this.countComments=null;this.countLikes=null;this.date=null;this
      * Load the metadata then display it.
      */}_defineProperty(StoryMeta,"CONTAINER","#meta-container");_defineProperty(StoryMeta,"TITLE","#meta-title");_defineProperty(StoryMeta,"COUNT_COMMENTS","#meta-count-comments");_defineProperty(StoryMeta,"COUNT_LIKES","#meta-count-likes");_defineProperty(StoryMeta,"DATE","#meta-date");_defineProperty(StoryMeta,"LINK_STORY","#meta-link-story");_defineProperty(StoryMeta,"LINK_SITE","#meta-link-site");
 class UrlParser{constructor(a_strUrl=null){if(a_strUrl==undefined||a_strUrl==null){this.url=window.location}this.queryString=window.location.search;this.urlParms=new URLSearchParams(this.queryString)}getQueryParm(a_strKey){return this.urlParms.get(a_strKey)}}
+class Utilities{/**************************************************
+    Enable the scroll button on the current page.
+    ***************************************************/static enableJumpButton(){const className=".btn-scroll-top";$(className).on("click",function(){document.body.scrollTop=0;// For Safari
+document.documentElement.scrollTop=0;// For Chrome, Firefox, IE and Opera
+});const scrollBtn=$(className);$(window).on("scroll",function(){if(document.body.scrollTop>20||document.documentElement.scrollTop>20){$(scrollBtn).removeClass("d-none")}else{$(scrollBtn).addClass("d-none")}})}}
 const eSortingSelect="#stories-sort-option";const eStoriesContainer="#stories-container";const eStoryItemClass=`.${StoryComp.StoryItemClass}`;const eViewSelection="stories-display-option";const mStories=new Stories(eStoriesContainer);/**************************************************
 Main logic
-***************************************************/$(document).ready(function(){showStoriesContainerSpinner();mStories.fetchTopStories(Stories.SORTING_TYPES.Default);addEventListeners()});/**************************************************
+***************************************************/$(document).ready(function(){showStoriesContainerSpinner();mStories.fetchTopStories(Stories.SORTING_TYPES.Default);addEventListeners();Utilities.enableJumpButton()});/**************************************************
 Add all the event listeners
 ***************************************************/function addEventListeners(){$(eSortingSelect).on("change",function(){updateStorySorting()});$("body").on("click",eStoryItemClass,function(e){gotoStory(e)});$(`input[name='${eViewSelection}']`).on("change",function(e){updateStoriesView()})}/**************************************************
 Update the stories sorting
@@ -152,7 +157,7 @@ Update the story elements view (gallery or list).
 Get the value of the checked stories view radio option.
 ***************************************************/function getStoriesViewInputValue(){return $(`input[name='${eViewSelection}']:checked`).val()}
 const eMetaIDs={container:"#meta-container",title:"#meta-title",countComments:"#meta-count-comments",countLikes:"#meta-count-likes",date:"#meta-date",linkStory:"#meta-link-story",linkSite:"#meta-link-site"};const eCommentsContainer="#comments-list";const eComments={item:".comment-item",toggleButton:".comment-item-btn-toggle-thread",meta:".comment-item-meta",thread:".comment-item-thread",text:".comment-item-text",visibilityClass:"comment-item-hidden"};const mUrlParser=new UrlParser;const mStoryID=mUrlParser.getQueryParm("storyID");const mStoryMeta=new StoryMeta(mStoryID);let mStoryComments=new StoryComments(mStoryID,eMetaIDs.title);// main logic
-$(document).ready(function(){mStoryMeta.loadAndDisplayData();mStoryComments.fetchStoryData();addListeners()});/**
+$(document).ready(function(){mStoryMeta.loadAndDisplayData();mStoryComments.fetchStoryData();addListeners();Utilities.enableJumpButton()});/**
  * Add the event listeners to the page elements
  */function addListeners(){$(eCommentsContainer).on("click",eComments.toggleButton,function(e){e.preventDefault();toggleCommentVisibility(this)})}/**
  * Show/hide a comment thread actions
