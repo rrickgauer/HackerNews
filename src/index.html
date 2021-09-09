@@ -16,13 +16,13 @@
 
 <body>
 
-    <div class="container mb-5">
+    <div class="container">
 
         <div class="d-block d-lg-flex align-items-center justify-content-between mt-5">
             <h1>Hacker News</h1>
-        
+
             <!-- sort/display options -->
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
                 <!-- sort by input -->
                 <div class="d-flex align-items-baseline mr-4">
                     <span><b>Sort by:</b></span>
@@ -35,9 +35,9 @@
                         </select>
                     </div>
                 </div>
-    
+
                 <!-- view selection -->
-                <div class="d-flex align-items-baseline">
+                <div class="d-flex align-items-baseline mr-4">
                     <span><b>Display:</b></span>
                     <div class="btn-group btn-group-sm btn-group-toggle ml-2" data-toggle="buttons">
                         <!-- gallery view -->
@@ -50,10 +50,22 @@
                         </label>
                     </div>
                 </div>
+
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="widescreen-checkbox-input">
+                        <label class="custom-control-label" for="widescreen-checkbox-input">Widescreen</label>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <hr class="mb-4">
+    </div>
+
+    <div class="container" id="stories-bs-container">
+
+        <hr>
 
         <!-- "back to top" button -->
         <button type="button" class="btn btn-sm btn-outline-dark btn-scroll-top d-none">Back to top</button>

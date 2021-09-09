@@ -135,11 +135,11 @@ class Utilities{/**************************************************
     ***************************************************/static enableJumpButton(){const className=".btn-scroll-top";$(className).on("click",function(){document.body.scrollTop=0;// For Safari
 document.documentElement.scrollTop=0;// For Chrome, Firefox, IE and Opera
 });const scrollBtn=$(className);$(window).on("scroll",function(){if(document.body.scrollTop>20||document.documentElement.scrollTop>20){$(scrollBtn).removeClass("d-none")}else{$(scrollBtn).addClass("d-none")}})}}
-const eSortingSelect="#stories-sort-option";const eStoriesContainer="#stories-container";const eStoryItemClass=`.${StoryComp.StoryItemClass}`;const eViewSelection="stories-display-option";const mStories=new Stories(eStoriesContainer);/**************************************************
+const eSortingSelect="#stories-sort-option";const eStoriesContainer="#stories-container";const eStoryItemClass=`.${StoryComp.StoryItemClass}`;const eStoriesBsContainer="#stories-bs-container";const eWidescreenCheckboxInput="#widescreen-checkbox-input";const eViewSelection="stories-display-option";const mStories=new Stories(eStoriesContainer);/**************************************************
 Main logic
 ***************************************************/$(document).ready(function(){showStoriesContainerSpinner();mStories.fetchTopStories(Stories.SORTING_TYPES.Default);addEventListeners();Utilities.enableJumpButton()});/**************************************************
 Add all the event listeners
-***************************************************/function addEventListeners(){$(eSortingSelect).on("change",function(){updateStorySorting()});$("body").on("click",eStoryItemClass,function(e){gotoStory(e)});$(`input[name='${eViewSelection}']`).on("change",function(e){updateStoriesView()})}/**************************************************
+***************************************************/function addEventListeners(){$(eSortingSelect).on("change",function(){updateStorySorting()});$("body").on("click",eStoryItemClass,function(e){gotoStory(e)});$(`input[name='${eViewSelection}']`).on("change",function(e){updateStoriesView()});$(eWidescreenCheckboxInput).on("change",function(e){toggleWideScreen()})}/**************************************************
 Update the stories sorting
 ***************************************************/function updateStorySorting(){const newSortingValue=parseInt($(eSortingSelect).find("option:checked").val());mStories.displayType=getStoriesViewInputValue();mStories.fetchTopStories(newSortingValue);showStoriesContainerSpinner()}/**************************************************
 Show the spinner in the stories container
@@ -155,7 +155,7 @@ go to either the comments section page, or the story url.
 Update the story elements view (gallery or list).
 ***************************************************/function updateStoriesView(){showStoriesContainerSpinner();mStories.displayType=getStoriesViewInputValue();mStories.displayStories()}/**************************************************
 Get the value of the checked stories view radio option.
-***************************************************/function getStoriesViewInputValue(){return $(`input[name='${eViewSelection}']:checked`).val()}
+***************************************************/function getStoriesViewInputValue(){return $(`input[name='${eViewSelection}']:checked`).val()}function toggleWideScreen(){$(eStoriesBsContainer).toggleClass("container-fluid").toggleClass("container")}
 const eMetaIDs={container:"#meta-container",title:"#meta-title",countComments:"#meta-count-comments",countLikes:"#meta-count-likes",date:"#meta-date",linkStory:"#meta-link-story",linkSite:"#meta-link-site"};const eCommentsContainer="#comments-list";const eComments={item:".comment-item",toggleButton:".comment-item-btn-toggle-thread",meta:".comment-item-meta",thread:".comment-item-thread",text:".comment-item-text",visibilityClass:"comment-item-hidden"};const mUrlParser=new UrlParser;const mStoryID=mUrlParser.getQueryParm("storyID");const mStoryMeta=new StoryMeta(mStoryID);let mStoryComments=new StoryComments(mStoryID,eMetaIDs.title);// main logic
 $(document).ready(function(){mStoryMeta.loadAndDisplayData();mStoryComments.fetchStoryData();addListeners();Utilities.enableJumpButton()});/**
  * Add the event listeners to the page elements
