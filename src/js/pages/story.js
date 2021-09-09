@@ -35,6 +35,7 @@ $(document).ready(function() {
     mStoryMeta.loadAndDisplayData();
     mStoryComments.fetchStoryData();
     addListeners();
+    Utilities.enableJumpButton();
 });
 
 

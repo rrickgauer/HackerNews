@@ -13,6 +13,8 @@ $(document).ready(function() {
     showStoriesContainerSpinner();
     mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
     addEventListeners();
+
+    Utilities.enableJumpButton();
 });
 
 /**************************************************
