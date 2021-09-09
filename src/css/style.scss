@@ -1,7 +1,19 @@
 
+$custom-header-font: 'Cormorant Garamond', serif;
+$custom-font: 'Lato', sans-serif;
+
+
+.custom-header-font {
+    font-family: $custom-header-font;
+}
+
+
+
+
 
 body {
     background-color: #F8F8F8;
+    // font-family: $custom-font;
 }
 
 
