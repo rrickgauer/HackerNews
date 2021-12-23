@@ -57,7 +57,7 @@ class StoryMeta
     displayData = () => {
         
         this.displayTitle();
-        this.displayCountComments();
+        // this.displayCountComments();
         this.displayCountLikes();
         this.displayDate();
         this.displayLinkStory();
@@ -84,7 +84,7 @@ class StoryMeta
         }
 
         const countCommentsText = `${this.countComments} comments`;
-        $(StoryMeta.COUNT_COMMENTS).text(countCommentsText);
+        // $(StoryMeta.COUNT_COMMENTS).text(countCommentsText);
     }
 
     /**
