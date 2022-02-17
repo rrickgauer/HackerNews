@@ -1,0 +1,36 @@
+{#
+
+This is the top document for the home page.
+
+Incoming data (data):
+    - name_first
+    - name_last
+    
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Flask Project Template</title>
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="jumbotron">
+            <h1 class="display-4">Hello, {{ data.name_first }} {{ data.name_last }}!</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </div>
+    </div>
+
+
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

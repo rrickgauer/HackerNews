@@ -1,0 +1,88 @@
+
+$custom-header-font: 'Cormorant Garamond', serif;
+$custom-font: 'Lato', sans-serif;
+
+
+.custom-header-font {
+    font-family: $custom-header-font;
+}
+
+
+
+
+
+body {
+    background-color: #F8F8F8;
+    // font-family: $custom-font;
+}
+
+
+
+.card-deck {
+    margin-bottom: 20px;
+}
+
+.custom-shadow {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+
+.story-item-list-item:hover {
+    background-color: #e2e2e2;
+    cursor: pointer;
+}
+
+
+.story-item-card {
+    transition: all .07s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    .card-footer {
+        background-color: inherit;
+    }
+}
+
+
+.list-comments {
+    margin-left: 30px;
+}
+
+.comment-item {
+    margin-bottom: 25px;
+    
+    .comment-item-meta {
+        margin-bottom: 5px;
+    }
+}
+
+.comment-item.comment-item-hidden {
+    .comment-item-thread {
+        display: none;
+    }
+}
+
+
+.btn {
+    .btn-text-mute {
+        line-height: 1.5;
+        word-wrap: break-word;
+        list-style: none;
+        font-size: 80%;
+        font-weight: 400;
+        box-sizing: border-box;
+        text-decoration: none;
+        background-color: transparent;
+        color: inherit!important;
+    }
+}
+
+.btn-scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+}
