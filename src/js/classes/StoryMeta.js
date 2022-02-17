@@ -1,16 +1,13 @@
+import ApiWrapper from "./ApiWrapper";
+import Dates from "./Dates";
+import StoryComp from "./StoryComp";
+
 
 /**
  * Class to display the metadata for a story.
  */
-class StoryMeta
+export default class StoryMeta
 {
-    static CONTAINER      = '#meta-container';
-    static TITLE          = '#meta-title';
-    static COUNT_COMMENTS = '#meta-count-comments';
-    static COUNT_LIKES    = '#meta-count-likes';
-    static DATE           = '#meta-date';
-    static LINK_STORY     = '#meta-link-story';
-    static LINK_SITE      = '#meta-link-site';
 
     /**
      * Constructor
@@ -27,12 +24,24 @@ class StoryMeta
         this.dateDiff      = null;
         this.linkStory     = null;
         this.linkSite      = null;
+
+
+        // bind the object's methods
+        this.loadAndDisplayData   = this.loadAndDisplayData.bind(this);
+        this.displayData          = this.displayData.bind(this);
+        this.displayTitle         = this.displayTitle.bind(this);
+        this.displayCountComments = this.displayCountComments.bind(this);
+        this.displayCountLikes    = this.displayCountLikes.bind(this);
+        this.displayDate          = this.displayDate.bind(this);
+        this.displayLinkStory     = this.displayLinkStory.bind(this);
+        this.displayLinkSite      = this.displayLinkSite.bind(this);
+        this.setLink              = this.setLink.bind(this);
     }
 
     /**
      * Load the metadata then display it.
      */
-    loadAndDisplayData = async() => {
+     async loadAndDisplayData() {
         // fetch the story metadata
         const storyApiResponse = await ApiWrapper.getStory(this.storyID);
         const storyComp = new StoryComp(storyApiResponse);
@@ -54,7 +63,7 @@ class StoryMeta
     /**
      * Display the data
      */
-    displayData = () => {
+    displayData() {
         
         this.displayTitle();
         this.displayCountComments();
@@ -67,7 +76,7 @@ class StoryMeta
     /**
      * Display the title
      */
-    displayTitle = () => {
+    displayTitle() {
         if (this.title == null) {
             return;
         }
@@ -78,7 +87,7 @@ class StoryMeta
     /**
      * Display the comment count
      */
-    displayCountComments = () => {
+    displayCountComments() {
         if (this.countComments == null) {
             return;
         }
@@ -90,7 +99,7 @@ class StoryMeta
     /**
      * Display the number of likes
      */
-    displayCountLikes = () => {
+    displayCountLikes() {
         if (this.countLikes == null) {
             return;
         }
@@ -102,7 +111,7 @@ class StoryMeta
     /**
      * Display the story date
      */
-    displayDate = () => {
+    displayDate() {
         const dateDiffString = Dates.getDiffDisplayString(this.dateDiff);
         $(StoryMeta.DATE).text(dateDiffString);
     }
@@ -110,14 +119,14 @@ class StoryMeta
     /**
      * Set the link to the story url
      */
-    displayLinkStory = () => {
+    displayLinkStory() {
         this.setLink(this.linkStory, StoryMeta.LINK_STORY);
     }
 
     /**
      * Set the link to the hackernews post
      */
-    displayLinkSite = () => {
+    displayLinkSite() {
         this.setLink(this.linkSite, StoryMeta.LINK_SITE);
     }
 
@@ -128,7 +137,7 @@ class StoryMeta
      * @param {string} a_strSelector - html element link to set
      * @returns void
      */
-    setLink = (a_strValue, a_strSelector) => {
+    setLink(a_strValue, a_strSelector) {
         if (a_strValue == null) {
             return;
         }
@@ -137,3 +146,13 @@ class StoryMeta
         $(a_strSelector).removeClass('disabled');
     }
 }
+
+
+
+StoryMeta.CONTAINER      = '#meta-container';
+StoryMeta.TITLE          = '#meta-title';
+StoryMeta.COUNT_COMMENTS = '#meta-count-comments';
+StoryMeta.COUNT_LIKES    = '#meta-count-likes';
+StoryMeta.DATE           = '#meta-date';
+StoryMeta.LINK_STORY     = '#meta-link-story';
+StoryMeta.LINK_SITE      = '#meta-link-site';

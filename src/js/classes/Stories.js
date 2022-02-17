@@ -1,33 +1,12 @@
-
-
+import ApiWrapper from "./ApiWrapper";
+import StoryComp from "./StoryComp";
 
 
 /**
  * This class is responsible for retrieving and displaying all the stories.
  */
-class Stories
+export default class Stories
 {
-    static DISPLAY_TYPES = {
-        Gallery: 'gallery',
-        List: 'list',
-    }
-    
-
-    static SORTING_TYPES = {
-        Default: 0,
-        Score: 1,
-        Descendants: 2,
-        Title: 3,
-    }
-
-    static STORY_TYPES = {
-        JOB: 'job',
-        STORY: 'story',
-        COMMENT: 'comment',
-        POLL: 'poll',
-        POLLOPT: 'pollopt',
-    };
-
     /**
      * Constructor
      * @param {string} a_strDisplayElement css selector of where to place all the story cards
@@ -36,6 +15,16 @@ class Stories
         this.displayElement = a_strDisplayElement;
         this.stories = [];
         this.displayType = Stories.DISPLAY_TYPES.Gallery;
+
+        this.fetchTopStories          = this.fetchTopStories.bind(this);
+        this.fetchStories             = this.fetchStories.bind(this);
+        this.sortStoriesByScore       = this.sortStoriesByScore.bind(this);
+        this.sortStoriesByDescendants = this.sortStoriesByDescendants.bind(this);
+        this.sortStoriesByTitle       = this.sortStoriesByTitle.bind(this);
+        this.displayStories           = this.displayStories.bind(this);
+        this.displayStoriesGallery    = this.displayStoriesGallery.bind(this);
+        this.displayStoriesList       = this.displayStoriesList.bind(this);
+
     }
 
 
@@ -175,5 +164,26 @@ class Stories
 }
 
 
+
+Stories.DISPLAY_TYPES = {
+    Gallery: 'gallery',
+    List: 'list',
+}
+
+
+Stories.SORTING_TYPES = {
+    Default: 0,
+    Score: 1,
+    Descendants: 2,
+    Title: 3,
+}
+
+Stories.STORY_TYPES = {
+    JOB: 'job',
+    STORY: 'story',
+    COMMENT: 'comment',
+    POLL: 'poll',
+    POLLOPT: 'pollopt',
+};
 
 

@@ -1,13 +1,9 @@
+import { DateTime } from "./Constants";
 
 
 
-
-class Dates
-{
-    /** Time difference units */
-    static DIFF_UNITS = ["years", "months", "days", "hours", "minutes", "seconds"];
-
-    
+export default class Dates
+{   
     /**
      * Returns the time difference between a datetime and now.
      * 
@@ -62,4 +58,6 @@ class Dates
 
 }
 
+/** Time difference units */
+Dates.DIFF_UNITS = ["years", "months", "days", "hours", "minutes", "seconds"];
 

@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Lato&display=swap" rel="stylesheet" />
-    
+
     <!-- skeleton elements -->
     <link rel="stylesheet" href="css/skeleton-elements.css">
 
@@ -27,44 +27,51 @@
 <body>
 
     <main>
-        <section id="meta-container">
-            <div class="container mb-5">
-                <div class="card my-5">
-                    <div class="card-body custom-shadow">
-                        <h1 id="meta-title" class="mb-3 skeleton-text skeleton-effect-wave">So I guess this is the title</h1>
-    
-                        <div class="card-deck">
-                            <div id="meta-count-comments" class="card card-body custom-shadow">
-                                <div class="spinner-border spinner-border-sm" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                            <div id="meta-count-likes" class="card card-body custom-shadow">
-                                <div class="spinner-border spinner-border-sm" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                            <div id="meta-date" class="card card-body custom-shadow">
-                                <div class="spinner-border spinner-border-sm" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-content-center">
-                            <div class="d-flex">
-                                <a id="meta-link-story" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to story</a>
-                                <a id="meta-link-site" href="#" class="btn btn-primary mr-3 disabled" target="_blank">Link to hackernews</a>
-                            </div>
 
-                            <!-- widescreen option checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="widescreen-checkbox-input">
-                                <label class="custom-control-label" for="widescreen-checkbox-input">Widescreen</label>
-                            </div>
+        <section id="meta-container">
+            <div class="container my-5">
+                <h1 id="meta-title" class="mb-3 skeleton-text skeleton-effect-wave">So I guess this is the title</h1>
+
+                <div class="card-deck">
+                    <div id="meta-count-comments" class="card card-body custom-shadow">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="meta-count-likes" class="card card-body custom-shadow">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="meta-date" class="card card-body custom-shadow">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 </div>
+
+                <div class="d-block d-lg-flex justify-content-between align-content-center">
+                    
+                    <div class="d-block">
+                        <a id="meta-link-story" href="#" class="btn btn-sm btn-outline-primary mr-3 disabled" target="_blank">Link to story</a>
+                        <a id="meta-link-site" href="#"  class="btn btn-sm btn-outline-primary mr-3 disabled" target="_blank">Link to hackernews</a>
+                    </div>
+
+
+                    <!-- widescreen option checkbox -->
+                    <div class="custom-control custom-checkbox mt-3 mt-lg-0">
+                        <input type="checkbox" class="custom-control-input" id="widescreen-checkbox-input">
+                        <label class="custom-control-label" for="widescreen-checkbox-input">Widescreen</label>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <hr>
             </div>
         </section>
 
@@ -106,17 +113,7 @@
     <script src="https://cdn.jsdelivr.net/npm/luxon@1.27.0/build/global/luxon.min.js"></script>
 
     <!-- custom js -->
-    <!-- <script src="js/classes/Constants.js"></script>
-    <script src="js/classes/UrlParser.js"></script>
-    <script src="js/classes/Dates.js"></script>
-    <script src="js/classes/ApiWrapper.js"></script>
-    <script src="js/classes/Comment.js"></script>
-    <script src="js/classes/StoryComp.js"></script>
-    <script src="js/classes/StoryMeta.js"></script>
-    <script src="js/classes/StoryComments.js"></script>
-    <script src="js/pages/story.js"></script> -->
-
-    <script src="js/main.js"></script>
+    <script src="js/dist/story.bundle.js"></script>
 
 
 </body>

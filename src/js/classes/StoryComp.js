@@ -1,10 +1,8 @@
+import { DateTime } from "./Constants";
+import Dates from "./Dates";
 
-
-class StoryComp
+export default class StoryComp
 {
-    static StoryItemClass = 'story-item';
-    static StoryCardClass = 'story-item-card';
-    static StoryListItemClass = 'story-item-list-item';
 
     constructor(a_apiResponse) {
         this.by          = null;
@@ -25,6 +23,9 @@ class StoryComp
         
         this.dt = DateTime.fromSeconds(this.time);
         this.dtDiff = Dates.getDiffNow(this.dt);
+
+        this.getCardHtml = this.getCardHtml.bind(this);
+        this.getListItemHtml = this.getListItemHtml.bind(this);
     }
 
     /**
@@ -76,3 +77,8 @@ class StoryComp
     }
 }
 
+
+
+StoryComp.StoryItemClass     = 'story-item';
+StoryComp.StoryCardClass     = 'story-item-card';
+StoryComp.StoryListItemClass = 'story-item-list-item';
