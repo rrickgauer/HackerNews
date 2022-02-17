@@ -1,7 +1,9 @@
+import ApiWrapper from "./ApiWrapper";
+import { DateTime } from "./Constants";
+import Dates from "./Dates";
 
 
-
-class Comment
+export default class Comment
 {   
     constructor(a_oApiResponse) {
         this.by = null;
@@ -22,22 +24,20 @@ class Comment
         this.dt = DateTime.fromSeconds(this.time);
         this.dtDiff = Dates.getDiffNow(this.dt);
 
+        this.getHtml = this.getHtml.bind(this);
+        this.getChildrenHtml = this.getChildrenHtml.bind(this);
+        this.formatText = this.formatText.bind(this);
     }
 
 
     getHtml() {
         const self = this;
 
-        const userUrl = ApiWrapper.getUserUrl(self.by);
-        const userUrlDisplay = `<a class="text-reset" href=${userUrl}>${self.by}</a>`;
-
-        const dateDisplay = Dates.getDiffDisplayString(this.dtDiff);
+        const userUrl             = ApiWrapper.getUserUrl(self.by);
+        const userUrlDisplay      = `<a class="text-reset" href=${userUrl}>${self.by}</a>`;
+        const dateDisplay         = Dates.getDiffDisplayString(this.dtDiff);
         const kidsCommentsDisplay = this.getChildrenHtml();
-
-
-        const displayText = self.formatText();
-
-        console.log(self.text);
+        const displayText         = self.formatText();
 
         let html = `<hr>
         <li class="comment-item">
@@ -91,12 +91,8 @@ class Comment
 
         // wrap the initial section in a p tag
         const outText = `<p>${startText}</p>${endText}`;
+        
         return outText;
-
-
-
-
-
     }
 }
 

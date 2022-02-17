@@ -1,7 +1,9 @@
+import ApiWrapper from "./ApiWrapper";
+import Comment from "./Comment";
+import StoryComp from "./StoryComp";
 
 
-
-class StoryComments
+export default class StoryComments
 {
     /**
      * @constructor
@@ -10,6 +12,12 @@ class StoryComments
     constructor(a_iStoryID) {
         this.comments = {};
         this.storyID = a_iStoryID;
+
+
+        this.displayStoryMetadata = this.displayStoryMetadata.bind(this);
+        this.fetchStoryData       = this.fetchStoryData.bind(this);
+        this.fetchAllComments     = this.fetchAllComments.bind(this);
+        this.displayComments      = this.displayComments.bind(this);
     }
 
     /**
@@ -21,6 +29,7 @@ class StoryComments
         // fetch the story metadata
         const storyApiResponse = await ApiWrapper.getStory(this.storyID);
         const storyComp = new StoryComp(storyApiResponse);
+
         
         // display the metadata
         this.displayStoryMetadata(storyComp);

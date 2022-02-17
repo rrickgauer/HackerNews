@@ -1,4 +1,16 @@
 
+import ApiWrapper from "../classes/ApiWrapper";
+import Comment from "../classes/Comment";
+import { DateTime } from "../classes/Constants";
+import Dates from "../classes/Dates";
+import Stories from "../classes/Stories";
+import StoryComments from "../classes/StoryComments";
+import StoryComp from "../classes/StoryComp";
+import StoryMeta from "../classes/StoryMeta";
+import UrlParser from "../classes/UrlParser";
+import Utilities from "../classes/Utilities";
+
+
 const eSortingSelect = '#stories-sort-option';
 const eStoriesContainer = '#stories-container';
 const eStoryItemClass = `.${StoryComp.StoryItemClass}`;
@@ -14,9 +26,11 @@ Main logic
 ***************************************************/
 $(document).ready(function() {
     showStoriesContainerSpinner();
+    
     mStories.fetchTopStories(Stories.SORTING_TYPES.Default);
+    
     addEventListeners();
-
+    
     Utilities.enableJumpButton();
 });
 
@@ -101,6 +115,3 @@ function getStoriesViewInputValue() {
 function toggleWideScreen() {
     $(eStoriesBsContainer).toggleClass('container-fluid').toggleClass('container');
 }
-
-
-
