@@ -1,13 +1,5 @@
-
-import ApiWrapper from "../classes/ApiWrapper";
-import Comment from "../classes/Comment";
-import { DateTime } from "../classes/Constants";
-import Dates from "../classes/Dates";
 import Stories from "../classes/Stories";
-import StoryComments from "../classes/StoryComments";
 import StoryComp from "../classes/StoryComp";
-import StoryMeta from "../classes/StoryMeta";
-import UrlParser from "../classes/UrlParser";
 import Utilities from "../classes/Utilities";
 
 
@@ -91,7 +83,7 @@ function gotoStory(e) {
     const card = $(e.target).closest(eStoryItemClass);
     const storyID = $(card).attr('data-id');
 
-    const url = `story.html?storyID=${storyID}`;
+    const url = `/stories/${storyID}`;
     window.open(url, "_blank");
 }
 

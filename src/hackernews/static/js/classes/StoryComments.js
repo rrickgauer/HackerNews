@@ -13,7 +13,6 @@ export default class StoryComments
         this.comments = {};
         this.storyID = a_iStoryID;
 
-
         this.displayStoryMetadata = this.displayStoryMetadata.bind(this);
         this.fetchStoryData       = this.fetchStoryData.bind(this);
         this.fetchAllComments     = this.fetchAllComments.bind(this);

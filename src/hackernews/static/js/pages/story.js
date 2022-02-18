@@ -4,33 +4,10 @@ import StoryMeta from "../classes/StoryMeta";
 import UrlParser from "../classes/UrlParser";
 import Utilities from "../classes/Utilities";
 
-
-const eMetaIDs = {
-    container: '#meta-container',
-    title: '#meta-title',
-    countComments: '#meta-count-comments',
-    countLikes: '#meta-count-likes',
-    date: '#meta-date',
-    linkStory: '#meta-link-story',
-    linkSite: '#meta-link-site',
-}
-
-
-const eCommentsContainer = '#comments-list';
-
-const eComments = {
-    item: '.comment-item',
-    toggleButton: '.comment-item-btn-toggle-thread',
-    meta: '.comment-item-meta',
-    thread: '.comment-item-thread',
-    text: '.comment-item-text',
-    visibilityClass: 'comment-item-hidden',
-}
-
-
+import { eComments, eCommentsContainer, eMetaIDs } from "../classes/StoryPageHtmlSelectors";
 
 const mUrlParser = new UrlParser();
-const mStoryID = mUrlParser.getQueryParm('storyID');
+const mStoryID = mUrlParser.getUrlPathSectionValue(1);
 
 const mStoryMeta = new StoryMeta(mStoryID);
 let mStoryComments = new StoryComments(mStoryID, eMetaIDs.title);

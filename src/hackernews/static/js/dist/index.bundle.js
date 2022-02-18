@@ -248,7 +248,6 @@ class Stories
      * Sort the stories by their score
      */
     sortStoriesByScore() {
-
         this.stories = this.stories.sort(function(a, b) {
             return (a.score > b.score ? -1 : 1);
         });
@@ -454,7 +453,7 @@ function gotoStory(e) {
     const card = $(e.target).closest(eStoryItemClass);
     const storyID = $(card).attr('data-id');
 
-    const url = `story.html?storyID=${storyID}`;
+    const url = `/stories/${storyID}`;
     window.open(url, "_blank");
 }
 

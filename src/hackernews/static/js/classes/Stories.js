@@ -82,7 +82,6 @@ export default class Stories
      * Sort the stories by their score
      */
     sortStoriesByScore() {
-
         this.stories = this.stories.sort(function(a, b) {
             return (a.score > b.score ? -1 : 1);
         });

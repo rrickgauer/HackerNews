@@ -269,7 +269,6 @@ StoryComp.StoryListItemClass = 'story-item-list-item';class StoryComments
         this.comments = {};
         this.storyID = a_iStoryID;
 
-
         this.displayStoryMetadata = this.displayStoryMetadata.bind(this);
         this.fetchStoryData       = this.fetchStoryData.bind(this);
         this.fetchAllComments     = this.fetchAllComments.bind(this);
@@ -501,7 +500,10 @@ StoryMeta.COUNT_COMMENTS = '#meta-count-comments';
 StoryMeta.COUNT_LIKES    = '#meta-count-likes';
 StoryMeta.DATE           = '#meta-date';
 StoryMeta.LINK_STORY     = '#meta-link-story';
-StoryMeta.LINK_SITE      = '#meta-link-site';class UrlParser
+StoryMeta.LINK_SITE      = '#meta-link-site';/**
+ * This class parses the current url.
+ */
+class UrlParser
 {
     constructor(a_strUrl=null) {
         if (a_strUrl == undefined || a_strUrl == null) {
@@ -510,12 +512,30 @@ StoryMeta.LINK_SITE      = '#meta-link-site';class UrlParser
 
         this.queryString = window.location.search;
         this.urlParms = new URLSearchParams(this.queryString);
+        
+        this.url = new URL(window.location);
 
         this.getQueryParm = this.getQueryParm.bind(this);
     }
 
+    /**
+     * Get the value of the given url query parm key
+     * @param {string} a_strKey - url query parm key
+     * @returns the value of the key 
+     */
     getQueryParm(a_strKey) {
         return this.urlParms.get(a_strKey);
+    }
+
+    /**
+     * Get the value url path
+     * 
+     * @param {number} index - path index
+     * @returns string
+     */
+    getUrlPathSectionValue(index) {
+        const pathSections = this.url.pathname.split('/');
+        return pathSections[index + 1];
     }
 }class Utilities 
 {
@@ -561,12 +581,8 @@ const eComments = {
     thread: '.comment-item-thread',
     text: '.comment-item-text',
     visibilityClass: 'comment-item-hidden',
-};
-
-
-
-const mUrlParser = new UrlParser();
-const mStoryID = mUrlParser.getQueryParm('storyID');
+};const mUrlParser = new UrlParser();
+const mStoryID = mUrlParser.getUrlPathSectionValue(1);
 
 const mStoryMeta = new StoryMeta(mStoryID);
 let mStoryComments = new StoryComments(mStoryID, eMetaIDs.title);
