@@ -15,4 +15,5 @@ mod_wsgi-express start-server \
 --log-level info   \
 --host $IP_ADDRESS \
 --log-to-terminal \
+--document-root /var/www/HackerNews/src/hackernews/static \
 hackernews.wsgi
