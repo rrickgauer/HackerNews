@@ -20,7 +20,7 @@ mod_wsgi-express setup-server \
 --host $IP_ADDRESS \
 --setup-only \
 --document-root /var/www/HackerNews/src/hackernews/static \
-api_lists.wsgi
+hackernews.wsgi
 
 # restart the server
 /etc/hackernews.ryanrickgauer.com/apachectl restart
