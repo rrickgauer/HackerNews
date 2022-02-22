@@ -1,0 +1,1 @@
+from hackernews import app as application
