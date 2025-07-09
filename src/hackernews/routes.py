@@ -11,9 +11,13 @@ def home():
     return flask.render_template('index.html')
 
 
+
 #------------------------------------------------------
 # Story page 
 #------------------------------------------------------
 @bp_home.route('stories/<int:story_id>')
 def story(story_id: int):
     return flask.render_template('story.html')
+
+
+

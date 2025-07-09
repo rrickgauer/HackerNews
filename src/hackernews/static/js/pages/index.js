@@ -1,6 +1,7 @@
 import Stories from "../classes/Stories";
 import StoryComp from "../classes/StoryComp";
 import Utilities from "../classes/Utilities";
+import { ViewStoryForm } from "../classes/ViewStoryForm";
 
 
 const eSortingSelect = '#stories-sort-option';
@@ -13,6 +14,8 @@ const eWidescreenCheckboxInput = '#widescreen-checkbox-input';
 const eViewSelection = 'stories-display-option';
 const mStories = new Stories(eStoriesContainer);
 
+const mViewStoryForm = new ViewStoryForm();
+
 /**************************************************
 Main logic
 ***************************************************/
@@ -24,6 +27,8 @@ $(document).ready(function() {
     addEventListeners();
     
     Utilities.enableJumpButton();
+
+    mViewStoryForm.control();
 });
 
 /**************************************************
