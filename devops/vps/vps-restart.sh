@@ -14,10 +14,6 @@ cd /var/www/HackerNews/src/hackernews/static/css
 sass --quiet style.scss:style.css 
 
 
-
-
-
-
 IP_ADDRESS='104.225.208.103'
 
 #---------------------------------------

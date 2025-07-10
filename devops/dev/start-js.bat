@@ -2,4 +2,4 @@
 
 cd C:\xampp\htdocs\files\HackerNews\src\hackernews\static\js
 
-rollup -c .\rollup.config.js --watch
+rollup -c .\rollup.config.js --watch --bundleConfigAsCjs
