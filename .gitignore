@@ -1,2 +1,5 @@
-node_modules
+**/node_modules/
 .venv/
+**/static/css/style.css*
+**/static/js/dist/
+__pycache__/

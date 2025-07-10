@@ -19,7 +19,7 @@
                 <!-- sort by input -->
                 <div class="d-flex align-items-baseline mr-4">
                     <span><b>Sort by:</b></span>
-                    
+
                     <div class="ml-2">
                         <select id="stories-sort-option" class="form-control form-control-sm">
                             <option value="0">Default</option>
@@ -37,15 +37,15 @@
                         <span><b>Display:</b></span>
 
                         <div class="btn-group btn-group-sm btn-group-toggle ml-2" data-toggle="buttons">
-                            
+
                             <!-- gallery view -->
                             <label class="btn btn-outline-secondary active" title="Gallery view">
                                 <input type="radio" name="stories-display-option" checked value="gallery"> <i class='bx bxs-grid'></i>
                             </label>
-                            
+
                             <!-- list view -->
                             <label class="btn btn-outline-secondary" title="List view">
-                                <input type="radio" name="stories-display-option" value="list"> 
+                                <input type="radio" name="stories-display-option" value="list">
                                 <i class='bx bx-list-ul'></i>
                             </label>
 
@@ -71,12 +71,17 @@
 
         <hr>
 
+        <button class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target=".modal-view-story">View story</button>
+
+
         <!-- "back to top" button -->
         <button type="button" class="btn btn-sm btn-outline-dark btn-scroll-top d-none">Back to top</button>
 
         <!-- stories get placed here -->
         <div id="stories-container"></div>
     </div>
+
+    {% include 'includes/modal-view-story.html' %}
 
     <!-- js -->
     {% include 'includes/footer.html' %}
