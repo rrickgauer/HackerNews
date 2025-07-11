@@ -1,4 +1,6 @@
 import { ApiWrapper } from "../../../api/ApiWrapper";
+import { StoryListItemCardTemplate } from "../../../templates/StoryListItemCardTemplate";
+import { StoryListItemTemplate } from "../../../templates/StoryListItemTemplate";
 import { StoriesDisplayType } from "../../enums/StoriesDisplayType";
 import { StoriesSortingType } from "../../enums/StoriesSortingType";
 import { StoryType } from "../../enums/StoryType";
@@ -6,90 +8,80 @@ import { StoryApiResponse } from "./StoryApiResponse";
 import { StoryListItem } from "./StoryListItem";
 
 
-
 /**
  * This class is responsible for retrieving and displaying all the stories.
  */
 export class Stories
 {    
-    displayElement: string;
-    stories: StoryApiResponse[];
-    displayType: string;
+    private readonly _selector: string;
+    private _stories: StoryApiResponse[];
+    private _currentDisplayType = StoriesDisplayType.Gallery;
 
     /**
      * Constructor
-     * @param {string} selector css selector of where to place all the story cards
      */
     constructor (selector: string)
     {
-        this.displayElement = selector;
-        this.stories = [];
-        this.displayType = StoriesDisplayType.Gallery;
+        this._selector = selector;
+        this._stories = [];
     }
 
+    //#region - Fetch stories -
 
     /**
      * Fetch the stories from the hackernews api 
-     * @param {Stories.SortingTypes} sortingType How should the stories be sorted once they have been fetched
      */
-    async fetchTopStories(sortingType: StoriesSortingType)
+    public async fetchTopStories(sortingType: StoriesSortingType): Promise<void>
     {
         const topStoriesList = await ApiWrapper.getTopStoriesIds();
-        this.fetchStories(topStoriesList, sortingType);
+        await this.fetchStories(topStoriesList, sortingType);
     }
 
     /**
      * Fetch the stories api responses using the given sorting types 
-     * @param {list[number]} a_listStoryIDs list of story ids
-     * @param {number} a_enumSortingType sorting type
      */
-    async fetchStories(a_listStoryIDs: number[], a_enumSortingType: number)
+    private async fetchStories(storyIds: number[], sortingType: StoriesSortingType): Promise<void>
     {
-        const self = this;
-        const storyPromises: Promise<StoryApiResponse>[] = [];
-
-        for (const storyID of a_listStoryIDs)
-        {
-            const storyResponse = ApiWrapper.getStory(storyID);
-            storyPromises.push(storyResponse);
-        }
-
-        const storyPromisesResponses = await Promise.all(storyPromises);
-
-        this.stories = [];      // clear out the existing stories
+        // fetch each story metadata from api
+        const storyApiResponses = await this.fetchStoryMetadata(storyIds);
 
         // weed out all of the non stories
-        for (const story of storyPromisesResponses)
-        {
-            if (story.type == StoryType.STORY)
-            {
-                this.stories.push(story);
-            }
-        }
+        this._stories = storyApiResponses.filter(s => s.type === StoryType.STORY);
 
-        switch (a_enumSortingType)
-        {
-            case StoriesSortingType.Score:
-                self.sortStoriesByScore();
-                break;
-            case StoriesSortingType.Descendants:
-                self.sortStoriesByDescendants();
-                break;
-            case StoriesSortingType.Title:
-                self.sortStoriesByTitle();
-                break;
-        }
+        // sort them
+        this.sortStories(sortingType);
 
-        this.displayStories();
+        // display them
+        this.displayStories(this._currentDisplayType);
     }
 
+    private async fetchStoryMetadata(storyIds: number[]): Promise<StoryApiResponse[]>
+    {
+        return await Promise.all(storyIds.map(id => ApiWrapper.getStory(id)));
+    }
+
+    private sortStories(sortType: StoriesSortingType): void
+    {
+        switch (sortType)
+        {
+            case StoriesSortingType.Score:
+                this.sortStoriesByScore();
+                break;
+            case StoriesSortingType.Descendants:
+                this.sortStoriesByDescendants();
+                break;
+            case StoriesSortingType.Title:
+                this.sortStoriesByTitle();
+                break;
+        }
+    }
 
     /**
      * Sort the stories by their score
      */
-    sortStoriesByScore()
+    private sortStoriesByScore(): void
     {
-        this.stories = this.stories.sort(function (a, b)
+        this._stories = this._stories.sort((a, b) =>
         {
             return (a.score > b.score ? -1 : 1);
         });
@@ -98,9 +90,9 @@ export class Stories
     /**
      * Sort the stories by the number of comments
      */
-    sortStoriesByDescendants()
+    private sortStoriesByDescendants(): void
     {
-        this.stories = this.stories.sort(function (a, b)
+        this._stories = this._stories.sort((a, b) =>
         {
             return (a.descendants > b.descendants ? -1 : 1);
         });
@@ -109,9 +101,9 @@ export class Stories
     /**
      * Sort the stories by the title
      */
-    sortStoriesByTitle()
+    private sortStoriesByTitle(): void
     {
-        this.stories = this.stories.sort(function (a, b)
+        this._stories = this._stories.sort((a, b) =>
         {
             const titleA = a.title.toUpperCase();
             const titleB = b.title.toUpperCase();
@@ -120,65 +112,71 @@ export class Stories
         });
     }
 
-    /**
-     * Display the stories on the page
-     */
-    displayStories()
+    //#endregion
+
+    //#region - Display Stories -
+
+    public displayStories(displayType: StoriesDisplayType)
     {
+        this._currentDisplayType = displayType;
 
-        if (this.displayType == StoriesDisplayType.Gallery)
+        switch(displayType)
         {
-            this.displayStoriesGallery();
-        } else
-        {
-            this.displayStoriesList();
+            case StoriesDisplayType.Gallery:
+                this.displayStoriesGallery();
+                break;
+            
+            case StoriesDisplayType.List:
+                this.displayStoriesList();
+                break;
+
+            default:
+                throw new Error(`Unknown display type: ${displayType}`);
         }
-
     }
+
 
     /**
      * Display the stories on the page AS A GALLERY
      */
-    displayStoriesGallery()
+    private displayStoriesGallery(): void
     {
-        let html = '<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">';
-        let count = 0;
+        const models = this.getStoryModels();
+        const htmlEngine = new StoryListItemCardTemplate();
 
-        for (const story of this.stories)
-        {
-            // if (count == 3)
-            // {
-            //     html += '</div><div class="card-deck">';
-            //     count = 0;
-            // }
+        const html = //html
+        `
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            ${htmlEngine.toHtmls(models)}
+        </div>
+        `;
 
-            const storyCard = new StoryListItem(story);
-            html += storyCard.getCardHtml();
-
-            count++;
-        }
-
-        html += '</div>';
-
-        $(this.displayElement).html(html);
+        $(this._selector).html(html);
     }
 
     /**
      * Display the stories on the page AS A LIST
      */
-    displayStoriesList()
+    private displayStoriesList(): void
     {
-        let html = `<ul class="list-group">`;
+        const models = this.getStoryModels();
+        const htmlEngine = new StoryListItemTemplate();
 
-        for (const story of this.stories)
-        {
-            const storyCard = new StoryListItem(story);
-            html += storyCard.getListItemHtml();
-        }
+        const html = //html
+        `
+        <ul class="list-group">
+            ${htmlEngine.toHtmls(models)}
+        </ul>
+        `;
 
-        html += '</ul>';
-
-        $(this.displayElement).html(html);
+        $(this._selector).html(html);
     }
+
+    private getStoryModels(): StoryListItem[]
+    {
+        return this._stories.map(s => new StoryListItem(s));
+    }
+
+    //#endregion
 }
 
