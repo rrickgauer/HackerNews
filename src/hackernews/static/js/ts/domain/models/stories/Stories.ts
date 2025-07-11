@@ -1,6 +1,6 @@
 import { ApiWrapper } from "../../../api/ApiWrapper";
-import { StoriesItemCardTemplate } from "../../../templates/StoriesItemCardTemplate";
-import { StoriesItemListTemplate } from "../../../templates/StoriesItemListTemplate";
+import { StoryListItemCardTemplate } from "../../../templates/StoryListItemCardTemplate";
+import { StoryListItemTemplate } from "../../../templates/StoryListItemTemplate";
 import { StoriesDisplayType } from "../../enums/StoriesDisplayType";
 import { StoriesSortingType } from "../../enums/StoriesSortingType";
 import { StoryType } from "../../enums/StoryType";
@@ -13,24 +13,23 @@ import { StoryListItem } from "./StoryListItem";
  */
 export class Stories
 {    
-    displayElement: string;
-    stories: StoryApiResponse[];
-    
+    private readonly _selector: string;
+    private _stories: StoryApiResponse[];
     private _currentDisplayType = StoriesDisplayType.Gallery;
 
     /**
      * Constructor
-     * @param {string} selector css selector of where to place all the story cards
      */
     constructor (selector: string)
     {
-        this.displayElement = selector;
-        this.stories = [];
+        this._selector = selector;
+        this._stories = [];
     }
+
+    //#region - Fetch stories -
 
     /**
      * Fetch the stories from the hackernews api 
-     * @param {Stories.SortingTypes} sortingType How should the stories be sorted once they have been fetched
      */
     public async fetchTopStories(sortingType: StoriesSortingType): Promise<void>
     {
@@ -40,8 +39,6 @@ export class Stories
 
     /**
      * Fetch the stories api responses using the given sorting types 
-     * @param {list[number]} storyIds list of story ids
-     * @param {number} sortingType sorting type
      */
     private async fetchStories(storyIds: number[], sortingType: StoriesSortingType): Promise<void>
     {
@@ -49,7 +46,7 @@ export class Stories
         const storyApiResponses = await this.fetchStoryMetadata(storyIds);
 
         // weed out all of the non stories
-        this.stories = storyApiResponses.filter(s => s.type === StoryType.STORY);
+        this._stories = storyApiResponses.filter(s => s.type === StoryType.STORY);
 
         // sort them
         this.sortStories(sortingType);
@@ -62,7 +59,6 @@ export class Stories
     {
         return await Promise.all(storyIds.map(id => ApiWrapper.getStory(id)));
     }
-
 
     private sortStories(sortType: StoriesSortingType): void
     {
@@ -85,7 +81,7 @@ export class Stories
      */
     private sortStoriesByScore(): void
     {
-        this.stories = this.stories.sort((a, b) =>
+        this._stories = this._stories.sort((a, b) =>
         {
             return (a.score > b.score ? -1 : 1);
         });
@@ -96,7 +92,7 @@ export class Stories
      */
     private sortStoriesByDescendants(): void
     {
-        this.stories = this.stories.sort((a, b) =>
+        this._stories = this._stories.sort((a, b) =>
         {
             return (a.descendants > b.descendants ? -1 : 1);
         });
@@ -107,7 +103,7 @@ export class Stories
      */
     private sortStoriesByTitle(): void
     {
-        this.stories = this.stories.sort((a, b) =>
+        this._stories = this._stories.sort((a, b) =>
         {
             const titleA = a.title.toUpperCase();
             const titleB = b.title.toUpperCase();
@@ -116,10 +112,12 @@ export class Stories
         });
     }
 
+    //#endregion
+
+    //#region - Display Stories -
 
     public displayStories(displayType: StoriesDisplayType)
     {
-
         this._currentDisplayType = displayType;
 
         switch(displayType)
@@ -144,7 +142,7 @@ export class Stories
     private displayStoriesGallery(): void
     {
         const models = this.getStoryModels();
-        const htmlEngine = new StoriesItemCardTemplate();
+        const htmlEngine = new StoryListItemCardTemplate();
 
         const html = //html
         `
@@ -153,7 +151,7 @@ export class Stories
         </div>
         `;
 
-        $(this.displayElement).html(html);
+        $(this._selector).html(html);
     }
 
     /**
@@ -162,7 +160,7 @@ export class Stories
     private displayStoriesList(): void
     {
         const models = this.getStoryModels();
-        const htmlEngine = new StoriesItemListTemplate();
+        const htmlEngine = new StoryListItemTemplate();
 
         const html = //html
         `
@@ -171,12 +169,14 @@ export class Stories
         </ul>
         `;
 
-        $(this.displayElement).html(html);
+        $(this._selector).html(html);
     }
 
     private getStoryModels(): StoryListItem[]
     {
-        return this.stories.map(s => new StoryListItem(s));
+        return this._stories.map(s => new StoryListItem(s));
     }
+
+    //#endregion
 }
 
