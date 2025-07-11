@@ -1,5 +1,4 @@
-
-
+import { navigateToPage, urlGetQueryParm } from "../../utilities/urls";
 
 
 export class ViewStoryFormElements
@@ -7,47 +6,45 @@ export class ViewStoryFormElements
     static modalClass = 'modal-view-story'
     static formClass = 'form-view-story'
     static inputId = 'form-view-story-input'
-    static modalClass = 'modal-view-story'
     static btnSubmitClass = 'btn-submit'
 }
 
 
 const ELE = ViewStoryFormElements;
 
-
 export class ViewStoryForm
 {
-    constructor()
+    private _form: HTMLFormElement;
+    private _input: HTMLInputElement;
+    private _btnSubmit: HTMLButtonElement;
+    constructor ()
     {
-        /** @type {HTMLFormElement} */
-        this._form = document.querySelector(`.${ELE.formClass}`);
-
-        /** @type {HTMLInputElement} */
-        this._input = document.querySelector(`#${ELE.inputId}`);
-
-        /** @type {HTMLButtonElement} */
-        this._btnSubmit = document.querySelector(`.${ELE.btnSubmitClass}`);
+        this._form = document.querySelector<HTMLFormElement>(`.${ELE.formClass}`)!;
+        this._input = document.querySelector<HTMLInputElement>(`#${ELE.inputId}`)!;
+        this._btnSubmit = document.querySelector<HTMLButtonElement>(`.${ELE.btnSubmitClass}`)!;
     }
 
-    control()
+    public control()
     {
         this.addListeners();
     }
 
-    addListeners()
+    private addListeners()
     {
-        this._form.addEventListener('submit', (e) => {
+        this._form.addEventListener('submit', (e) =>
+        {
             e.preventDefault();
             this.onFormSubmit();
         });
 
-        this._input.addEventListener('keyup', (e) => {
+        this._input.addEventListener('keyup', (e) =>
+        {
             this._btnSubmit.disabled = this._input.value === "";
         });
     }
 
 
-    onFormSubmit()
+    private onFormSubmit()
     {
         const inputValue = this._input.value;
 
@@ -58,12 +55,12 @@ export class ViewStoryForm
 
         const url = this.tryParseUrl(inputValue);
 
-        if(url)
+        if (url)
         {
             this.handleUrlValue(url);
             return;
         }
-        
+
         const storyId = this.tryParseInt(inputValue);
 
         if (storyId)
@@ -77,12 +74,12 @@ export class ViewStoryForm
      * @param {string} value the value to parse
      * @returns URL | null
      */
-    tryParseUrl(value) 
+    private tryParseUrl(value: string) 
     {
         try 
         {
             return new URL(value);
-        } 
+        }
         catch (_) 
         {
             return null;
@@ -93,9 +90,9 @@ export class ViewStoryForm
      * Navigate to the story from the given hackernews url  
      * @param {URL} url the hackernews url
      */
-    handleUrlValue(url)
+    private handleUrlValue(url: URL)
     {
-        const storyId = this.tryParseInt(url.searchParams.get('id'));
+        const storyId = this.tryParseInt(urlGetQueryParm('id', url));
 
         if (storyId)
         {
@@ -105,11 +102,12 @@ export class ViewStoryForm
 
     /**
      * View the given story
-     * @param {int} storyId the story id
+     * @param {number} storyId the story id
      */
-    viewStory(storyId)
+    private viewStory(storyId: number)
     {
-        window.location.href = `/stories/${storyId}`;
+        navigateToPage(`/stories/${storyId}`, true);
+        // window.location.href = `/stories/${storyId}`;
     }
 
     /**
@@ -117,13 +115,18 @@ export class ViewStoryForm
      * @param {string | null} value the story id
      * @returns int | null
      */
-    tryParseInt(value)
+    private tryParseInt(value: string | null)
     {
+        if (!value)
+        {
+            return null;
+        }
+
         try 
         {
             return parseInt(value);
         }
-        catch(_)
+        catch (_)
         {
             return null;
         }

@@ -4,7 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "checklists page",
+            "url": "http://127.0.0.1:6003/",
+            "webRoot": "${workspaceFolder}/src/hackernews/static/js"
+        },
         {
             "name": "Python Debugger: Flask",
             "type": "debugpy",
