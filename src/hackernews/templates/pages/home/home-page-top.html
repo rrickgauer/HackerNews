@@ -1,0 +1,55 @@
+
+
+{% macro getStoriesDisplayRadioHtml(value, icon, isChecked) -%}
+    {% set displayInputName = 'stories-display-option' %}
+    {% set inputId = displayInputName ~ '-input-' ~ value %}
+    <input type="radio" class="btn-check" name="{{ displayInputName }}" id="{{ inputId }}" autocomplete="off" value="{{ value }}" {{ 'checked' if isChecked }}>
+    <label class="btn btn-outline-secondary" for="{{ inputId }}"><i class='bx {{ icon }}'></i></label>
+{%- endmacro %}
+
+
+{% set widescreenCheckboxInputId = 'widescreen-checkbox-input' %}
+
+<div class="container">
+    <div class="d-block d-lg-flex align-items-center justify-content-between mt-5">
+        <h1 class="custom-header-font mb-3 mb-lg-0">Today's Stories</h1>
+
+        <!-- sort/display options -->
+        <div class="d-md-flex align-items-center">
+
+            {# sort by input #}
+            <div class="d-flex align-items-baseline me-4">
+                <span><b>Sort by:</b></span>
+
+                <div class="ms-2">
+                    <select id="stories-sort-option" class="form-select form-select-sm">
+                        <option value="0">Default</option>
+                        <option value="1">Score</option>
+                        <option value="2">Comments</option>
+                        <option value="3">Title</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex mt-3 mt-md-0 justify-content-between align-items-center">
+                {# view selection #}
+                <div class="d-flex align-items-baseline me-4">
+                    <span><b>Display:</b></span>
+
+                    <div class="btn-group btn-group-sm btn-group-toggle ms-2">
+                        {{ getStoriesDisplayRadioHtml('gallery', 'bxs-grid', true) }}
+                        {{ getStoriesDisplayRadioHtml('list', 'bx-list-ul', false) }}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="{{ widescreenCheckboxInputId }}">
+                        <label class="custom-control-label" for="{{ widescreenCheckboxInputId }}">Widescreen</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

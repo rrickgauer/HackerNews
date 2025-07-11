@@ -1,5 +1,6 @@
 import { StoryComments } from "../../domain/models/stories/StoryComments";
 import { StoryMetadata } from "../../domain/models/stories/StoryMetadata";
+import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 import { urlGetPathSectionValue } from "../../utilities/urls";
 import { eCommentsContainer, eComments } from "./StoryPageHtmlSelectors";
@@ -19,6 +20,8 @@ export class StoryPage
 
     public control()
     {
+        ViewStoryForm.initialize();
+        
         this._storyMetadata.loadAndDisplayData();
         this._storyComments.fetchStoryData();
         this.addListeners();

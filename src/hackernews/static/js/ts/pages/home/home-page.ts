@@ -1,7 +1,7 @@
 import { StoriesSortingType } from "../../domain/enums/StoriesSortingType";
 import { Stories } from "../../domain/models/stories/Stories";
 import { StoryListItem } from "../../domain/models/stories/StoryListItem";
-import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
+import { ViewStoryForm, ViewStoryFormElements } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 
 
@@ -30,6 +30,8 @@ export class HomePage
 
     public async control()
     {
+        ViewStoryForm.initialize();
+
         this.showStoriesContainerSpinner();
 
         await this._stories.fetchTopStories(StoriesSortingType.Default);
