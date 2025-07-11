@@ -19,6 +19,10 @@ body {
   cursor: pointer;
 }
 
+.story-item .card-story-link {
+  text-decoration: none;
+}
+
 .story-item-card {
   transition: all 0.07s ease-in-out;
 }
@@ -62,6 +66,10 @@ body {
   bottom: 20px;
   right: 30px;
   z-index: 99;
+}
+
+.hover-underline:hover {
+  text-decoration: underline !important;
 }
 
 /*# sourceMappingURL=style.css.map */

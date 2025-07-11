@@ -54,19 +54,22 @@ export class StoryListItem
 
         let html = //html
         `
-        <div class="${StoryListItem.StoryItemClass} card ${StoryListItem.StoryCardClass} custom-shadow" data-id=${this.id}>
-            <div class="card-body">
-                <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
-                <p class="text-muted"><small>${dtDisplay}</small></p>
-                <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
-            </div>
-            <div class="card-footer px-4">
-                <div class="d-flex align-baseline justify-content-between">
-                    <span><i class='bx bx-like'></i>&nbsp;${scoreDisplay}</span>
-                    <span><i class='bx bx-comment-detail'></i>&nbsp;${descendantsDisplay}</span>
+            <div class="col">
+                <div class="${StoryListItem.StoryItemClass} card ${StoryListItem.StoryCardClass} custom-shadow h-100" data-id=${this.id}>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${this.title}</a></h5>
+                        <p class="text-muted"><small>${dtDisplay}</small></p>
+                        <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${this.by}</p>
+                    </div>
+                    <div class="card-footer px-4">
+                        <div class="d-flex align-baseline justify-content-between">
+                            <span><i class='bx bx-like'></i>&nbsp;${scoreDisplay}</span>
+                            <span><i class='bx bx-comment-detail'></i>&nbsp;${descendantsDisplay}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>`;
+        `;
 
         return html;
     }

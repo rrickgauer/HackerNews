@@ -17,11 +17,11 @@
             <div class="d-md-flex align-items-center">
 
                 <!-- sort by input -->
-                <div class="d-flex align-items-baseline mr-4">
+                <div class="d-flex align-items-baseline me-4">
                     <span><b>Sort by:</b></span>
 
-                    <div class="ml-2">
-                        <select id="stories-sort-option" class="form-control form-control-sm">
+                    <div class="ms-2">
+                        <select id="stories-sort-option" class="form-select form-select-sm">
                             <option value="0">Default</option>
                             <option value="1">Score</option>
                             <option value="2">Comments</option>
@@ -31,24 +31,16 @@
                 </div>
 
                 <div class="d-flex mt-3 mt-md-0 justify-content-between align-items-center">
-
                     <!-- view selection -->
-                    <div class="d-flex align-items-baseline mr-4">
+                    <div class="d-flex align-items-baseline me-4">
                         <span><b>Display:</b></span>
 
-                        <div class="btn-group btn-group-sm btn-group-toggle ml-2" data-toggle="buttons">
+                        <div class="btn-group btn-group-sm btn-group-toggle ms-2">
+                            <input type="radio" class="btn-check" name="stories-display-option" id="stories-display-option-gallery" autocomplete="off" checked value="gallery">
+                            <label class="btn btn-outline-secondary" for="stories-display-option-gallery"><i class='bx bxs-grid'></i></label>
 
-                            <!-- gallery view -->
-                            <label class="btn btn-outline-secondary active" title="Gallery view">
-                                <input type="radio" name="stories-display-option" checked value="gallery"> <i class='bx bxs-grid'></i>
-                            </label>
-
-                            <!-- list view -->
-                            <label class="btn btn-outline-secondary" title="List view">
-                                <input type="radio" name="stories-display-option" value="list">
-                                <i class='bx bx-list-ul'></i>
-                            </label>
-
+                            <input type="radio" class="btn-check" name="stories-display-option" id="stories-display-option-list" autocomplete="off" value="list">
+                            <label class="btn btn-outline-secondary" for="stories-display-option-list"><i class='bx bx-list-ul'></i></label>
                         </div>
                     </div>
 
@@ -71,7 +63,7 @@
 
         <hr>
 
-        <button class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target=".modal-view-story">View story</button>
+        <button class="btn btn-sm btn-secondary mb-3" data-bs-toggle="modal" data-bs-target=".modal-view-story">View story</button>
 
 
         <!-- "back to top" button -->
