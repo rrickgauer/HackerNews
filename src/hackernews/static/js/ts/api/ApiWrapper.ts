@@ -5,7 +5,7 @@ const URLS = ApiUrls;
 
 export class ApiWrapper
 {
-    static async getTopStoriesIds()
+    static async getTopStoriesIds(): Promise<Array<number>>
     {
         let response = await fetch(URLS.TOP);
         return response.json();

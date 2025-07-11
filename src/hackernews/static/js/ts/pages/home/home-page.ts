@@ -1,7 +1,8 @@
+import { StoriesDisplayType } from "../../domain/enums/StoriesDisplayType";
 import { StoriesSortingType } from "../../domain/enums/StoriesSortingType";
 import { Stories } from "../../domain/models/stories/Stories";
 import { StoryListItem } from "../../domain/models/stories/StoryListItem";
-import { ViewStoryForm, ViewStoryFormElements } from "../../helpers/view-story-form/ViewStoryForm";
+import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 
 
@@ -75,7 +76,6 @@ export class HomePage
     private updateStorySorting()
     {
         const newSortingValue = parseInt($(ELE.eSortingSelect).find('option:checked').val() as string);
-        this._stories.displayType = this.getStoriesViewInputValue();
         this._stories.fetchTopStories(newSortingValue);
         this.showStoriesContainerSpinner();
     }
@@ -121,16 +121,16 @@ export class HomePage
     private updateStoriesView()
     {
         this.showStoriesContainerSpinner();
-        this._stories.displayType = this.getStoriesViewInputValue();
-        this._stories.displayStories();
+        const displayType = this.getStoriesViewInputValue();
+        this._stories.displayStories(displayType);
     }
 
     /**************************************************
     Get the value of the checked stories view radio option.
     ***************************************************/
-    private getStoriesViewInputValue()
+    private getStoriesViewInputValue(): StoriesDisplayType
     {
-        return $(`input[name='${ELE.eViewSelection}']:checked`).val() as string;
+        return $(`input[name='${ELE.eViewSelection}']:checked`).val() as StoriesDisplayType;
     }
 
     private toggleWideScreen()
