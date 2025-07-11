@@ -1,6 +1,6 @@
 import { HomePage } from "./home-page";
 
-$(document).ready(() => {
+$(document).ready(async () => {
     const controller = new HomePage();
-    controller.control();
+    await controller.control();
 });

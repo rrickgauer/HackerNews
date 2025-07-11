@@ -141,16 +141,16 @@ export class Stories
      */
     displayStoriesGallery()
     {
-        let html = '<div class="card-deck">';
+        let html = '<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">';
         let count = 0;
 
         for (const story of this.stories)
         {
-            if (count == 3)
-            {
-                html += '</div><div class="card-deck">';
-                count = 0;
-            }
+            // if (count == 3)
+            // {
+            //     html += '</div><div class="card-deck">';
+            //     count = 0;
+            // }
 
             const storyCard = new StoryListItem(story);
             html += storyCard.getCardHtml();

@@ -34,31 +34,40 @@ export class CommentModel implements CommentApiResponse
 
     public getHtml(): string
     {
-        const self = this;
+        // const this = this;
 
-        const userUrl = ApiWrapper.getUserUrl(self.by);
-        const userUrlDisplay = `<a class="text-reset" href=${userUrl}>${self.by}</a>`;
+        const userUrl = ApiWrapper.getUserUrl(this.by);
+        
+        const userUrlDisplay = //html 
+        `
+        <a class="text-decoration-none text-reset hover-underline" href=${userUrl}>
+            ${this.by}
+        </a>
+        `;
+
         const dateDisplay = getDiffDisplayString(this.dtDiff);
         const kidsCommentsDisplay = this.getChildrenHtml();
-        const displayText = self.formatText();
+        const displayText = this.formatText();
 
         let html = //html
             `<hr>
-        <li class="comment-item">
-            <div class="d-flex">
-                <p class="comment-item-meta">
-                    <small class="text-muted">
-                        <span>${userUrlDisplay} &#183; ${dateDisplay}</span> &#183; 
-                        <a href="#" class="text-reset comment-item-btn-toggle-thread">Hide</a>
-                    </small>
-                </p>
-            </div>
 
-            <div class="comment-item-thread">
-                <div class="comment-item-text">${displayText}</div>
-                <ul class="list-comments list-unstyled">${kidsCommentsDisplay}</ul>
-            </div>
-        </li>`;
+            <li class="comment-item">
+                <div class="d-flex">
+                    <p class="comment-item-meta">
+                        <small class="text-body-secondary">
+                            <span>${userUrlDisplay} &#183; ${dateDisplay}</span> &#183; 
+                            <a href="#" class="comment-item-btn-toggle-thread text-decoration-none text-reset hover-underline">Hide</a>
+                        </small>
+                    </p>
+                </div>
+
+                <div class="comment-item-thread">
+                    <div class="comment-item-text">${displayText}</div>
+                    <ul class="list-comments list-unstyled">${kidsCommentsDisplay}</ul>
+                </div>
+            </li>
+        `;
 
         return html;
     }

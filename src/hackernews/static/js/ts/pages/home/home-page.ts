@@ -28,11 +28,11 @@ export class HomePage
         this._viewStoryForm = new ViewStoryForm();
     }
 
-    public control()
+    public async control()
     {
         this.showStoriesContainerSpinner();
 
-        this._stories.fetchTopStories(StoriesSortingType.Default);
+        await this._stories.fetchTopStories(StoriesSortingType.Default);
 
         this.addEventListeners();
 
@@ -87,7 +87,7 @@ export class HomePage
         `
         <div class="d-flex justify-content-center mt-5">
             <div class="spinner-border text-primary mt-5" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
         `;
