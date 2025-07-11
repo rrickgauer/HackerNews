@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Hacker News</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+    {# Top of page filtering #}
+    {% include 'pages/home/home-page-top.html' %}
+
+    <div class="container" id="stories-bs-container">
+        <hr>
+
+        <!-- "back to top" button -->
+        <button type="button" class="btn btn-sm btn-outline-dark btn-scroll-top d-none">Back to top</button>
+
+        <!-- stories get placed here -->
+        <div id="stories-container"></div>
+    </div>
+
+    <!-- js -->
+    {% include 'includes/footer.html' %}
+
+    <!-- custom js -->
+    <script src="/static/js/dist/home.bundle.js"></script>
+
+</body>
+
+</html>

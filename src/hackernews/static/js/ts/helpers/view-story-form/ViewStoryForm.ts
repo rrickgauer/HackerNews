@@ -3,7 +3,6 @@ import { navigateToPage, urlGetQueryParm } from "../../utilities/urls";
 
 export class ViewStoryFormElements
 {
-    static modalClass = 'modal-view-story'
     static formClass = 'form-view-story'
     static inputId = 'form-view-story-input'
     static btnSubmitClass = 'btn-submit'
@@ -14,14 +13,17 @@ const ELE = ViewStoryFormElements;
 
 export class ViewStoryForm
 {
+    private static _singleton: ViewStoryForm | null = null;
+
     private _form: HTMLFormElement;
     private _input: HTMLInputElement;
     private _btnSubmit: HTMLButtonElement;
+
     constructor ()
     {
         this._form = document.querySelector<HTMLFormElement>(`.${ELE.formClass}`)!;
-        this._input = document.querySelector<HTMLInputElement>(`#${ELE.inputId}`)!;
-        this._btnSubmit = document.querySelector<HTMLButtonElement>(`.${ELE.btnSubmitClass}`)!;
+        this._input = this._form.querySelector<HTMLInputElement>(`#${ELE.inputId}`)!;
+        this._btnSubmit = this._form.querySelector<HTMLButtonElement>(`.${ELE.btnSubmitClass}`)!;
     }
 
     public control()
@@ -107,7 +109,6 @@ export class ViewStoryForm
     private viewStory(storyId: number)
     {
         navigateToPage(`/stories/${storyId}`, true);
-        // window.location.href = `/stories/${storyId}`;
     }
 
     /**
@@ -131,6 +132,20 @@ export class ViewStoryForm
             return null;
         }
     }
+
+    //#region - Static methods -
+    public static initialize(): ViewStoryForm
+    {
+        if (!this._singleton)
+        {
+            this._singleton = new ViewStoryForm();
+            this._singleton.control();
+        }
+
+        return this._singleton;
+    }
+    //#endregion
+
 }
 
 
