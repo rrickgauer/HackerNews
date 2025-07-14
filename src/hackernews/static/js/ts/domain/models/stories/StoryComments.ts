@@ -1,6 +1,6 @@
 import { ApiWrapper } from "../../../api/ApiWrapper";
+import { CommentTemplate } from "../../../templates/CommentTemplate";
 import { CommentModel } from "../comments/CommentModel";
-import { StoryApiResponse } from "./StoryApiResponse";
 import { StoryListItem } from "./StoryListItem";
 
 export class StoryComments
@@ -17,20 +17,19 @@ export class StoryComments
     /**
      * Retrieve the story data
      */
-    async fetchStoryData()
+    public async fetchStoryData(): Promise<void>
     {
         // fetch the story metadata
         const storyApiResponse = await ApiWrapper.getStory(this.storyID);
         const storyComp = new StoryListItem(storyApiResponse);
-
 
         // display the metadata
         this.displayStoryMetadata(storyComp);
 
         // fetch all the story comments
         this.comments = storyComp;
-        await this.fetchAllComments(this.comments);
-        this.comments = this.comments.kids;
+        await this.fetchAllComments(this.comments as StoryListItem);
+        this.comments = this.comments.kids as StoryListItem[];
 
         // display the story comments
         this.displayComments();
@@ -40,11 +39,11 @@ export class StoryComments
     /**
      * Display story metadata on the page
      * 
-     * @param {StoryListItem} a_oStoryMetadata - Story comp object
+     * @param {StoryListItem} storyMetadata - Story comp object
      */
-    displayStoryMetadata(a_oStoryMetadata)
+    private displayStoryMetadata(storyMetadata: StoryListItem)
     {
-        $('title').text(a_oStoryMetadata.title);
+        $('title').text(storyMetadata.title);
     }
 
     /**
@@ -52,22 +51,14 @@ export class StoryComments
      * 
      * @param {StoryListItem} story the story
      */
-    async fetchAllComments(story: StoryListItem)
+    private async fetchAllComments(story: StoryListItem): Promise<void>
     {
-
         if (!story.hasOwnProperty('kids'))
         {
             return;
         }
 
-        const promiseList: Array<Promise<StoryApiResponse>> = [];
-
-        for (const commentID of story.kids)
-        {
-            promiseList.push(ApiWrapper.getStory(commentID as number));
-        }
-
-        story.kids = await Promise.all(promiseList);
+        story.kids = await Promise.all(story.kids.map((k) => ApiWrapper.getStory(k)));
 
         for (let count = 0; count < story.kids.length; count++)
         {
@@ -78,15 +69,14 @@ export class StoryComments
     /**
      * Display the comments
      */
-    displayComments()
+    private displayComments(): void
     {
-        let html = '';
+        const htmlEngine = new CommentTemplate();
 
-        for (const comment of this.comments)
-        {
-            const commentObj = new CommentModel(comment);
-            html += commentObj.getHtml();
-        }
+        const commentModels = this.comments.map(c => new CommentModel(c)) as CommentModel[];
+        commentModels.forEach(c => c.mapChildren());
+
+        let html = htmlEngine.toHtmls(commentModels);
 
         // display the html
         // make all links found within the comments section open a new tab

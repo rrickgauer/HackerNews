@@ -18,17 +18,15 @@ export class StoryPage
         this._storyComments = new StoryComments(this._storyId);
     }
 
-    public control()
+    public async control()
     {
         ViewStoryForm.initialize();
         
-        this._storyMetadata.loadAndDisplayData();
-        this._storyComments.fetchStoryData();
+        await this._storyMetadata.loadAndDisplayData();
+        await this._storyComments.fetchStoryData();
         this.addListeners();
         enableJumpButton();
     }
-
-
 
     /**
      * Add the event listeners to the page elements
