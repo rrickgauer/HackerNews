@@ -1,6 +1,6 @@
 import { StoryPage } from "./StoryPage";
 
-$(document).ready(() => {
+$(document).ready(async () => {
     const storyPage = new StoryPage();
-    storyPage.control();
+    await storyPage.control();
 });

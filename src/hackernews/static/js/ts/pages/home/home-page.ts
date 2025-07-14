@@ -1,18 +1,19 @@
+import { StoriesDisplayType } from "../../domain/enums/StoriesDisplayType";
 import { StoriesSortingType } from "../../domain/enums/StoriesSortingType";
 import { Stories } from "../../domain/models/stories/Stories";
 import { StoryListItem } from "../../domain/models/stories/StoryListItem";
-import { ViewStoryForm, ViewStoryFormElements } from "../../helpers/view-story-form/ViewStoryForm";
+import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 
 
 export class HomePageElements
 {
-    public static readonly eSortingSelect = '#stories-sort-option';
-    public static readonly eStoriesContainer = '#stories-container';
-    public static readonly eStoryItemClass = `.${StoryListItem.StoryItemClass}`;
-    public static readonly eStoriesBsContainer = '#stories-bs-container';
-    public static readonly eWidescreenCheckboxInput = '#widescreen-checkbox-input';
-    public static readonly eViewSelection = 'stories-display-option';
+    public static readonly sortingSelectInputId = '#stories-sort-option';
+    public static readonly storiesContainerId = '#stories-container';
+    public static readonly storyItemClass = `.${StoryListItem.StoryItemClass}`;
+    public static readonly storiesBsContainerClass = '#stories-bs-container';
+    public static readonly widescreenCheckboxInputOd = '#widescreen-checkbox-input';
+    public static readonly displaySelectOptionClass = 'stories-display-option';
 }
 
 const ELE = HomePageElements;
@@ -24,7 +25,7 @@ export class HomePage
 
     constructor ()
     {
-        this._stories = new Stories(ELE.eStoriesContainer);
+        this._stories = new Stories(ELE.storiesContainerId);
         this._viewStoryForm = new ViewStoryForm();
     }
 
@@ -48,22 +49,22 @@ export class HomePage
     ***************************************************/
     private addEventListeners()
     {
-        $(ELE.eSortingSelect).on('change', (e) =>
+        $(ELE.sortingSelectInputId).on('change', (e) =>
         {
             this.updateStorySorting();
         });
 
-        $('body').on('click', ELE.eStoryItemClass, (e) =>
+        $('body').on('click', ELE.storyItemClass, (e) =>
         {
             this.gotoStory(e);
         });
 
-        $(`input[name='${ELE.eViewSelection}']`).on('change', (e) =>
+        $(`input[name='${ELE.displaySelectOptionClass}']`).on('change', (e) =>
         {
             this.updateStoriesView();
         });
 
-        $(ELE.eWidescreenCheckboxInput).on('change', (e) =>
+        $(ELE.widescreenCheckboxInputOd).on('change', (e) =>
         {
             this.toggleWideScreen();
         });
@@ -74,8 +75,7 @@ export class HomePage
     ***************************************************/
     private updateStorySorting()
     {
-        const newSortingValue = parseInt($(ELE.eSortingSelect).find('option:checked').val() as string);
-        this._stories.displayType = this.getStoriesViewInputValue();
+        const newSortingValue = parseInt($(ELE.sortingSelectInputId).find('option:checked').val() as string);
         this._stories.fetchTopStories(newSortingValue);
         this.showStoriesContainerSpinner();
     }
@@ -94,7 +94,7 @@ export class HomePage
         </div>
         `;
 
-        $(ELE.eStoriesContainer).html(html);
+        $(ELE.storiesContainerId).html(html);
     }
 
     /**************************************************
@@ -108,7 +108,7 @@ export class HomePage
             return;
         }
 
-        const card = $(e.target).closest(ELE.eStoryItemClass);
+        const card = $(e.target).closest(ELE.storyItemClass);
         const storyID = $(card).attr('data-id');
 
         const url = `/stories/${storyID}`;
@@ -121,21 +121,21 @@ export class HomePage
     private updateStoriesView()
     {
         this.showStoriesContainerSpinner();
-        this._stories.displayType = this.getStoriesViewInputValue();
-        this._stories.displayStories();
+        const displayType = this.getStoriesViewInputValue();
+        this._stories.displayStories(displayType);
     }
 
     /**************************************************
     Get the value of the checked stories view radio option.
     ***************************************************/
-    private getStoriesViewInputValue()
+    private getStoriesViewInputValue(): StoriesDisplayType
     {
-        return $(`input[name='${ELE.eViewSelection}']:checked`).val() as string;
+        return $(`input[name='${ELE.displaySelectOptionClass}']:checked`).val() as StoriesDisplayType;
     }
 
     private toggleWideScreen()
     {
-        $(ELE.eStoriesBsContainer).toggleClass('container-fluid').toggleClass('container');
+        $(ELE.storiesBsContainerClass).toggleClass('container-fluid').toggleClass('container');
     }
 
 }
