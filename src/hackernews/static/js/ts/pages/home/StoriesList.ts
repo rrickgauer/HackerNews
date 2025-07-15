@@ -1,20 +1,20 @@
-import { ApiWrapper } from "../../../api/ApiWrapper";
-import { StoryListItemCardTemplate } from "../../../templates/StoryListItemCardTemplate";
-import { StoryListItemTemplate } from "../../../templates/StoryListItemTemplate";
-import { StoriesDisplayType } from "../../enums/StoriesDisplayType";
-import { StoriesSortingType } from "../../enums/StoriesSortingType";
-import { StoryType } from "../../enums/StoryType";
-import { StoryApiResponse } from "./StoryApiResponse";
-import { StoryListItem } from "./StoryListItem";
+import { ApiWrapper } from "../../api/ApiWrapper";
+import { StoryListItemCardTemplate } from "../../templates/StoryListItemCardTemplate";
+import { StoryListItemTemplate } from "../../templates/StoryListItemTemplate";
+import { StoriesDisplayType } from "../../domain/enums/StoriesDisplayType";
+import { StoriesSortingType } from "../../domain/enums/StoriesSortingType";
+import { ItemType } from "../../domain/enums/ItemType";
+import { StoryItem } from "../../domain/models/stories/StoryListItem";
+import { ApiResponseStory } from "../../domain/models/api-responses/responses";
 
 
 /**
  * This class is responsible for retrieving and displaying all the stories.
  */
-export class Stories
+export class StoriesList
 {    
     private readonly _selector: string;
-    private _stories: StoryApiResponse[];
+    private _stories: ApiResponseStory[];
     private _currentDisplayType = StoriesDisplayType.Gallery;
 
     /**
@@ -46,7 +46,7 @@ export class Stories
         const storyApiResponses = await this.fetchStoryMetadata(storyIds);
 
         // weed out all of the non stories
-        this._stories = storyApiResponses.filter(s => s.type === StoryType.STORY);
+        this._stories = storyApiResponses.filter(s => s.type === ItemType.STORY);
 
         // sort them
         this.sortStories(sortingType);
@@ -55,9 +55,9 @@ export class Stories
         this.displayStories(this._currentDisplayType);
     }
 
-    private async fetchStoryMetadata(storyIds: number[]): Promise<StoryApiResponse[]>
+    private async fetchStoryMetadata(storyIds: number[]): Promise<ApiResponseStory[]>
     {
-        return await Promise.all(storyIds.map(id => ApiWrapper.getStory(id)));
+        return await Promise.all(storyIds.map(id => ApiWrapper.getItem<ApiResponseStory>(id)));
     }
 
     private sortStories(sortType: StoriesSortingType): void
@@ -172,9 +172,9 @@ export class Stories
         $(this._selector).html(html);
     }
 
-    private getStoryModels(): StoryListItem[]
+    private getStoryModels(): StoryItem[]
     {
-        return this._stories.map(s => new StoryListItem(s));
+        return this._stories.map(s => new StoryItem(s));
     }
 
     //#endregion

@@ -1,5 +1,5 @@
-import { StoryListItem } from "../domain/models/stories/StoryListItem";
-import { getDiffDisplayString } from "../utilities/dates";
+import { StoryItem } from "../domain/models/stories/StoryListItem";
+import { getDifferenceDisplayString } from "../utilities/dates";
 import { HtmlTemplate } from "./HtmlTemplate";
 
 export class StoryListItemCardTemplateElements
@@ -9,16 +9,16 @@ export class StoryListItemCardTemplateElements
 
 const ELE = StoryListItemCardTemplateElements;
 
-export class StoryListItemTemplate extends HtmlTemplate<StoryListItem>
+export class StoryListItemTemplate extends HtmlTemplate<StoryItem>
 {
-    public toHtml(model: StoryListItem): string
+    public toHtml(model: StoryItem): string
     {
         const url = model.url ?? model.siteUrl;
-        const dtDisplay = getDiffDisplayString(model.dtDiff);
+        const dtDisplay = getDifferenceDisplayString(model.createdOnDuration);
 
         let html = //html
         `
-        <li class="${StoryListItem.StoryItemClass} ${ELE.StoryListItemClass} list-group-item" data-id=${model.id}>
+        <li class="${StoryItem.StoryItemClass} ${ELE.StoryListItemClass} list-group-item" data-id=${model.id}>
             <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${model.title}</a></h5>
             <p class="text-muted"><small>${dtDisplay}</small></p>
             <p class="text-muted"><i class='bx bxs-user'></i>&nbsp;${model.by}</p>
