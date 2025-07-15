@@ -38,11 +38,6 @@ export class ViewStoryForm
             e.preventDefault();
             this.onFormSubmit();
         });
-
-        this._input.addEventListener('keyup', (e) =>
-        {
-            this._btnSubmit.disabled = this._input.value === "";
-        });
     }
 
 
