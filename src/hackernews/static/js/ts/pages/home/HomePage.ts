@@ -1,7 +1,7 @@
 import { StoriesDisplayType } from "../../domain/enums/StoriesDisplayType";
 import { StoriesSortingType } from "../../domain/enums/StoriesSortingType";
-import { Stories } from "../../domain/models/stories/Stories";
-import { StoryListItem } from "../../domain/models/stories/StoryListItem";
+import { StoriesList } from "./StoriesList";
+import { StoryItem } from "../../domain/models/stories/StoryListItem";
 import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 
@@ -10,7 +10,7 @@ export class HomePageElements
 {
     public static readonly sortingSelectInputId = '#stories-sort-option';
     public static readonly storiesContainerId = '#stories-container';
-    public static readonly storyItemClass = `.${StoryListItem.StoryItemClass}`;
+    public static readonly storyItemClass = `.${StoryItem.StoryItemClass}`;
     public static readonly storiesBsContainerClass = '#stories-bs-container';
     public static readonly widescreenCheckboxInputOd = '#widescreen-checkbox-input';
     public static readonly displaySelectOptionClass = 'stories-display-option';
@@ -20,12 +20,12 @@ const ELE = HomePageElements;
 
 export class HomePage
 {
-    private readonly _stories: Stories;
+    private readonly _stories: StoriesList;
     private readonly _viewStoryForm: ViewStoryForm;
 
     constructor ()
     {
-        this._stories = new Stories(ELE.storiesContainerId);
+        this._stories = new StoriesList(ELE.storiesContainerId);
         this._viewStoryForm = new ViewStoryForm();
     }
 

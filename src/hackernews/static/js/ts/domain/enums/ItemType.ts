@@ -2,7 +2,7 @@
 
 
 
-export enum StoryType
+export enum ItemType
 {
     JOB = 'job',
     STORY = 'story',

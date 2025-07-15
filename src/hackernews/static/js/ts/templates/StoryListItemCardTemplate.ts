@@ -1,5 +1,5 @@
-import { StoryListItem } from "../domain/models/stories/StoryListItem";
-import { getDiffDisplayString } from "../utilities/dates";
+import { StoryItem } from "../domain/models/stories/StoryListItem";
+import { getDifferenceDisplayString } from "../utilities/dates";
 import { HtmlTemplate } from "./HtmlTemplate";
 
 
@@ -12,12 +12,12 @@ export class StoryListItemCardTemplateElements
 const ELE = StoryListItemCardTemplateElements;
 
 
-export class StoryListItemCardTemplate extends HtmlTemplate<StoryListItem>
+export class StoryListItemCardTemplate extends HtmlTemplate<StoryItem>
 {
-    public toHtml(model: StoryListItem): string
+    public toHtml(model: StoryItem): string
     {
         const url = model.url ?? model.siteUrl;
-        const dtDisplay = getDiffDisplayString(model.dtDiff);
+        const dtDisplay = getDifferenceDisplayString(model.createdOnDuration);
 
         // add commas to score and descendants
         const scoreDisplay = model.score.toLocaleString();
@@ -26,7 +26,7 @@ export class StoryListItemCardTemplate extends HtmlTemplate<StoryListItem>
         let html = //html
         `
         <div class="col">
-            <div class="${StoryListItem.StoryItemClass} card ${ELE.StoryCardClass} custom-shadow h-100" data-id=${model.id}>
+            <div class="${StoryItem.StoryItemClass} card ${ELE.StoryCardClass} custom-shadow h-100" data-id=${model.id}>
                 <div class="card-body">
                     <h5 class="card-title"><a href="${url}" target="_blank" class="card-story-link">${model.title}</a></h5>
                     <p class="text-muted"><small>${dtDisplay}</small></p>

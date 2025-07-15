@@ -10,27 +10,40 @@ export function getDifferenceNow(date: DateTime): Duration
     return DateTime.now().diff(date, DIFF_UNITS);
 }
 
+export function getDateTimeFromUnix(seconds: number): DateTime
+{
+    return DateTime.fromSeconds(seconds);
+}
+
+
 /**
  * Generate the date difference display string.
  */
-export function getDiffDisplayString(duration: Duration): string
+export function getDifferenceDisplayString(duration: Duration): string;
+export function getDifferenceDisplayString(date: DateTime): string;
+export function getDifferenceDisplayString(value: Duration | DateTime): string
 {
+    if (value instanceof DateTime)
+    {
+        value = getDifferenceNow(value);
+    }
+
     let numUnits: number | null = null;
     let unitType: string | null = null;
 
-    if (duration.days > 0)
+    if (value.days > 0)
     {
-        numUnits = duration.days;
+        numUnits = value.days;
         unitType = 'day';
     } 
-    else if (duration.hours > 0)
+    else if (value.hours > 0)
     {
-        numUnits = duration.hours;
+        numUnits = value.hours;
         unitType = 'hour';
     } 
-    else if (duration.minutes > 1)
+    else if (value.minutes > 1)
     {
-        numUnits = duration.minutes;
+        numUnits = value.minutes;
         unitType = 'minute';
     }
 

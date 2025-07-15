@@ -1,17 +1,17 @@
-import { StoryApiResponse } from "../domain/models/stories/StoryApiResponse";
+import { ApiResponse } from "../domain/models/api-responses/responses";
 import { ApiUrls } from "./ApiUrls";
 
 const URLS = ApiUrls;
 
 export class ApiWrapper
 {
-    static async getTopStoriesIds(): Promise<Array<number>>
+    public static async getTopStoriesIds(): Promise<Array<number>>
     {
         let response = await fetch(URLS.TOP);
         return response.json();
     }
 
-    static async getStory(id: number): Promise<StoryApiResponse>
+    public static async getItem<T extends ApiResponse>(id: number): Promise<T>
     {
         const urlStory = ApiWrapper.getStoryUrl(id);
         const response = await fetch(urlStory);
@@ -19,13 +19,13 @@ export class ApiWrapper
     }
 
 
-    static getStoryUrl(id: number)
+    public static getStoryUrl(id: number)
     {
         let url = `${URLS.STORY}${id}.json`;
         return url;
     }
 
-    static getUserUrl(userID: string | number)
+    public static getUserUrl(userID: string | number)
     {
         return `${URLS.URL_USER_BASE}${userID}`;
     }

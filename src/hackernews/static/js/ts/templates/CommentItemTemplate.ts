@@ -1,12 +1,24 @@
 import { ApiWrapper } from "../api/ApiWrapper";
-import { CommentModel } from "../domain/models/comments/CommentModel";
-import { getDiffDisplayString } from "../utilities/dates";
+import { CommentItem } from "../domain/models/comments/CommentItem";
+import { getDifferenceDisplayString } from "../utilities/dates";
 import { HtmlTemplate } from "./HtmlTemplate";
 
 
-export class CommentTemplate extends HtmlTemplate<CommentModel>
+export class CommentItemTemplateElements
 {
-    public toHtml(model: CommentModel): string
+    public static readonly containerClass = 'comment-item';
+    public static readonly btnToggleClass = 'comment-item-btn-toggle-thread';
+    public static readonly metaClass = 'comment-item-meta';
+    public static readonly threadClass = 'comment-item-thread';
+    public static readonly textClass = 'comment-item-text';
+    public static readonly visibilityClass = 'comment-item-hidden';
+}
+
+const ELE = CommentItemTemplateElements;
+
+export class CommentItemTemplate extends HtmlTemplate<CommentItem>
+{
+    public toHtml(model: CommentItem): string
     {
         const userUrl = ApiWrapper.getUserUrl(model.by);
         
@@ -17,25 +29,25 @@ export class CommentTemplate extends HtmlTemplate<CommentModel>
         </a>
         `;
 
-        const dateDisplay = getDiffDisplayString(model.dtDiff);
+        const dateDisplay = getDifferenceDisplayString(model.time);
         const kidsCommentsDisplay = this.getChildrenHtml(model);
         const displayText = this.formatText(model);
 
         let html = //html
         `<hr>
 
-        <li class="comment-item">
+        <li class="${ELE.containerClass}">
             <div class="d-flex">
-                <p class="comment-item-meta">
+                <p class="${ELE.metaClass}">
                     <small class="text-body-secondary">
                         <span>${userUrlDisplay} &#183; ${dateDisplay}</span> &#183; 
-                        <a href="#" class="comment-item-btn-toggle-thread text-decoration-none text-reset hover-underline">Hide</a>
+                        <a href="#" class="${ELE.btnToggleClass} text-decoration-none text-reset hover-underline">Hide</a>
                     </small>
                 </p>
             </div>
 
-            <div class="comment-item-thread">
-                <div class="comment-item-text">${displayText}</div>
+            <div class="${ELE.threadClass}">
+                <div class="${ELE.textClass}">${displayText}</div>
                 <ul class="list-comments list-unstyled">${kidsCommentsDisplay}</ul>
             </div>
         </li>
@@ -44,14 +56,14 @@ export class CommentTemplate extends HtmlTemplate<CommentModel>
         return html;
     }
 
-    private getChildrenHtml(model: CommentModel): string
+    private getChildrenHtml(model: CommentItem): string
     {
-        const htmlEngine = new CommentTemplate();
+        const htmlEngine = new CommentItemTemplate();
         const kids = model.kids ?? [];
-        return htmlEngine.toHtmls(kids as CommentModel[]);
+        return htmlEngine.toHtmls(kids as CommentItem[]);
     }
 
-    private formatText(model: CommentModel): string
+    private formatText(model: CommentItem): string
     {
         if (!model.text)
         {

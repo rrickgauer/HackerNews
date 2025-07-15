@@ -1,4 +1,4 @@
-import { HomePage } from "./home-page";
+import { HomePage } from "./HomePage";
 
 $(document).ready(async () => {
     const controller = new HomePage();

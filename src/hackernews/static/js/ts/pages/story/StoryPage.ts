@@ -1,21 +1,29 @@
-import { StoryComments } from "../../domain/models/stories/StoryComments";
-import { StoryMetadata } from "../../domain/models/stories/StoryMetadata";
+import { StoryComments } from "./StoryComments";
+import { StoryMetadata } from "./StoryMetadata";
 import { ViewStoryForm } from "../../helpers/view-story-form/ViewStoryForm";
 import { enableJumpButton } from "../../utilities/jump-button";
 import { urlGetPathSectionValue } from "../../utilities/urls";
-import { eCommentsContainer, eComments } from "./StoryPageHtmlSelectors";
+import { CommentItemTemplateElements } from "../../templates/CommentItemTemplate";
+
+export class StoryPageElements
+{
+    public static readonly commentsContainerId = `#comments-list`;
+}
+
+const ELE = StoryPageElements;
+const CLE = CommentItemTemplateElements;
 
 export class StoryPage
 {
-    private _storyId: number;
-    private _storyMetadata: StoryMetadata;
-    private _storyComments: StoryComments;
+    private readonly _storyId: number;
+    private readonly _storyMetadata: StoryMetadata;
+    private readonly _comments: StoryComments;
 
     constructor ()
     {
         this._storyId = parseInt(urlGetPathSectionValue(1));
         this._storyMetadata = new StoryMetadata(this._storyId);
-        this._storyComments = new StoryComments(this._storyId);
+        this._comments = new StoryComments(this._storyId);
     }
 
     public async control()
@@ -23,17 +31,18 @@ export class StoryPage
         ViewStoryForm.initialize();
         
         await this._storyMetadata.loadAndDisplayData();
-        await this._storyComments.fetchStoryData();
+        await this._comments.displayComments();
         this.addListeners();
         enableJumpButton();
-    }
 
+    }
+    
     /**
      * Add the event listeners to the page elements
      */
     private addListeners()
     {
-        $(eCommentsContainer).on('click', eComments.toggleButton, (e) =>
+        $(ELE.commentsContainerId).on('click', `.${CLE.btnToggleClass}`, (e) =>
         {
             e.preventDefault();
             this.toggleCommentVisibility(e.target);
@@ -46,13 +55,13 @@ export class StoryPage
      */
     private toggleCommentVisibility(buttonElement: HTMLElement)
     {
-        const eComment = $(buttonElement).closest(eComments.item);
+        const eComment = $(buttonElement).closest(`.${CLE.containerClass}`);
 
         // toggle comment visibility
-        $(eComment).toggleClass(eComments.visibilityClass);
+        $(eComment).toggleClass(CLE.visibilityClass);
 
         // update the button text to show or hide
-        const btnText = $(eComment).hasClass(eComments.visibilityClass) ? 'Show' : 'Hide';
+        const btnText = $(eComment).hasClass(CLE.visibilityClass) ? 'Show' : 'Hide';
         $(buttonElement).text(btnText);
     }
 }
